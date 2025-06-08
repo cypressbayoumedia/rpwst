@@ -1,0 +1,104 @@
+header {
+  background-color: #f5f5f5; /* Light grey background for the header */
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.banner {
+  width: 100%;
+  max-height: 400px; /* Limit the height of the banner image */
+  overflow: hidden; /* Hide any overflow from the image */
+}
+
+.banner img {
+  width: 100%;
+  height: auto;
+  display: block; /* Remove extra space below the image */
+}
+
+.description-content {
+  display: flex;
+  gap: 3rem; /* Add space between the text and the graph placeholder */
+}
+
+.description-content p{
+  line-height: 1.5;
+  font-size: 1.2em;
+ }
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+  .description-content {
+    flex-direction: column; /* Stack items vertically */
+  }
+  .logo-container {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr); /* 3 columns */
+    gap: 1rem; /* Add some space between logos */
+     /* Center items vertically */
+    text-align: center;
+  }
+  
+  .text-section {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .description-content p{
+    width: 50%;
+   }
+   .logo-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns */
+    gap: 1rem; /* Add some space between logos */
+   
+    text-align: center;
+  }
+  
+}
+
+.description-content img {
+  width: 100%;
+}
+
+.text-section {
+  flex: 1 1 500px; /* Allow the text section to grow and shrink, with a base width of 500px */
+  max-width: 700px; /* Limit the maximum width of the text section */
+}
+
+
+
+.clubs-section h2 {
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.club-logos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsive grid with minimum item width of 150px */
+  gap: 2rem; /* Space between the logos */
+  padding: 0 2rem 2rem; /* Padding around the grid */
+}
+
+
+.logo-container img {
+  border-radius: 50%; /* Make images circular */
+  width: 200px; /* Adjust the size as needed */
+  height: 200px; /* Adjust the size as needed */
+  object-fit: cover; /* Ensure the image covers the circular area */
+}
+
+.logo-container a {
+  text-decoration: none; /* Remove underline */
+  color: #d50000; /* Set text color */
+  font-weight: 700; /* Set font weight */
+}
+
+
+.clubs-description-section{
+  padding: 1em
+}

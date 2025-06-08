@@ -1,0 +1,41 @@
+<header class="header">
+  <h1>St. Tammany Parish Republicans</h1>
+</header>
+<section class="banner-section">
+  <img src="path/to/american-flag.jpg" alt="American Flag Banner" class="banner-image">
+</section>
+<section class="clubs-description-section">
+  <div class="description-content">
+    <p>St. Tammany Parish has five active Republican Clubs, four women's groups and one men's group. These groups meet on different days of the week and at different times. All meetings feature a speaker who may be a local and state elected official or an expert in their field speaking on topical subjects.</p>
+    <div class="graph-placeholder">
+      <!-- Placeholder for graph -->
+      <img src="/voter_chart.svg" alt="" srcset="">
+    </div>
+
+  </div>
+</section>
+<section class="club-logos-section">
+  <h2>Clubs</h2>
+  <div class="logo-container">
+    @for (club of clubs; track club.id) {
+     @if(club.slug != null){ 
+      <a [routerLink]="['/clubs', club.slug]">
+        <img [src]="club.logo" [alt]="club.name" [title]="club.name"/>
+        <br>
+  <span>{{club.name}}</span>  
+  </a>
+     }@else {
+      <span>
+        <img [src]="club.logo" [alt]="club.name" [title]="club.name"/>
+        <br>
+      <span>{{club.name}}</span>  
+      </span>
+      
+     }
+
+
+    }
+    
+
+  </div>
+</section>

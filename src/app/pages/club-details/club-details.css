@@ -1,0 +1,219 @@
+/*
+ * The main container for the entire component.
+ * We use this to set a max-width and center it on the page.
+*/
+
+.officers-container{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(15px); /* Start 15px down */
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);    /* End at its normal position */
+    }
+  }
+  .club-text {
+    animation: fadeIn 0.7s ease-out 0.5s forwards; /* Starts after a 0.5s delay */
+  }
+
+article {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 1rem;
+  }
+  
+  /*
+   * This is the main layout container for the two columns (text and image).
+   * We use Flexbox to align the items side-by-side.
+  */
+  .club-details {
+    display: flex;
+    gap: 2rem; /* Creates space between the text and the image */
+    align-items: center; /* Vertically aligns the text and image */
+    margin-bottom: 2rem;
+  }
+  
+  /*
+   * The left column containing the text content.
+   * `flex: 2;` makes it take up roughly twice the space of the image column.
+  */
+  .club-text {
+    flex: 2;
+  }
+  
+  /*
+   * The right column containing the logo/image.
+   * `flex: 1;` makes it take up half the space of the text column.
+   * It's also a flex container itself to perfectly center the image inside it.
+  */
+  .club-logo-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /*
+   * Styling for the heading (<h1>).
+   * Large, bold, and with good line-height for readability.
+  */
+  .club-text h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    color: #1a1a1a;
+  }
+  
+  /*
+   * Styling for the paragraph text from Contentful.
+   * The selector `p` will apply to the `<p>` tag where you bind `innerHTML`.
+  */
+  .club-text p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #4f4f4f;
+  }
+  
+  /*
+   * Styling for the club image/logo.
+   * We give it a max-width and make it circular.
+  */
+  .club-image {
+    max-width: 220px;
+    width: 100%;
+    height: auto;
+    border-radius: 50%; /* This makes the image a perfect circle */
+    object-fit: contain; /* Ensures the image fits well within the circle */
+  }
+  
+  /*
+   * Simple styling for the "Back to All Clubs" link.
+  */
+  article > a[routerLink="/"] {
+    display: inline-block;
+    margin-top: 1rem;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  article > a[routerLink="/"]:hover {
+    text-decoration: underline;
+  }
+  
+  
+  /* --- Responsive Design for Mobile Screens --- */
+  /*
+   * When the screen is 768px or less, we stack the columns vertically.
+  */
+  @media (max-width: 768px) {
+    .club-details {
+      flex-direction: column; /* Stack text and image on top of each other */
+    }
+    .officers-container{
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 2rem;
+      }
+    /*
+     * `order: -1` is a powerful trick to visually re-order elements.
+     * This moves the logo container *above* the text on mobile screens.
+    */
+    .club-logo-container {
+      order: -1;
+      margin-bottom: 2rem;
+    }
+  
+    /* Adjust font sizes for smaller screens */
+    .club-text h1 {
+      font-size: 2.2rem;
+    }
+  
+    .club-text p {
+      font-size: 1rem;
+    }
+  }
+
+  /* Use a host selector to ensure the component fits well in a grid */
+  
+  /* The main container for the card */
+  .officer-card {
+    background-color: #EAEAEA; /* A light grey background */
+    border-radius: 20px;       /* Generous rounded corners for the whole card */
+    padding: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* A subtle shadow for depth */
+    overflow: hidden;          /* This is key to making sure the inner image's corners don't poke out */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  }
+  
+  .officer-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+  }
+  
+  /* Container for the image, with the red placeholder background */
+  .officer-image-container {
+    background-color: #c8102e; /* A strong Republican red */
+    border-radius: 12px;       /* Slightly smaller rounded corners for the image area */
+    margin-bottom: 1rem;
+    /* This ensures the image placeholder has a square shape before the image loads */
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .officer-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image covers the area without stretching */
+    border-radius: 12px; /* Match the container's border radius */
+  }
+  
+  /* Container for the text content below the image */
+  .officer-info {
+    padding: 0.5rem;
+  }
+  
+  /* Styling for the officer's title (e.g., "President") */
+  .officer-info h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 0.25rem 0;
+    color: #1a1a1a;
+  }
+  
+  /* Styling for the officer's name */
+  .officer-info p {
+    font-size: 1rem;
+    margin: 0 0 0.75rem 0;
+    color: #333;
+  }
+  
+  /* Styling for the email link */
+  .officer-info a {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    text-decoration: underline;
+    word-break: break-all; /* Prevents long emails from overflowing */
+  }
+
+  .resource-container a{
+    display: inline-block;
+    margin-top: 1rem;
+    margin-right: 1em;
+    color: #EAEAEA;
+    background-color: #d50000;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 1em;
+    border-radius: .5em ;
+  }

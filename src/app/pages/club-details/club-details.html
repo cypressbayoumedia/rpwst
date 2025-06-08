@@ -1,0 +1,84 @@
+<!-- The @switch block reads the status of our resource signal -->
+@switch (clubResource.status()) {
+
+    @case ('loading') {
+      <p>Loading club details...</p>
+    }
+  
+    @case ('error') {
+      <p class="error">Failed to load club details. Please try again.</p>
+      <a routerLink="/clubs">Back to Clubs</a>
+    }
+  
+    @case ('resolved') {
+      <!-- Use @let to create a local variable and check if it's a valid club entry -->
+ @let resolvedClub = clubResource.value();
+
+ @if (resolvedClub && resolvedClub.fields) {
+ @let club = resolvedClub; <!-- Assign to 'club' only if valid -->
+        <article>
+          <div class="club-details">
+            <div class="club-text">
+                          <h1>{{ club.fields.title }}</h1>
+            
+            <!-- Assuming you have a description field -->
+            @if (club.fields['missionabout']) {
+              <p [innerHTML]="club.fields['missionabout'] | mdToHtml"></p>  
+            }
+            </div>
+            <div>
+                        @if (club.fields['image']; as image) {
+            <img class="club-image"
+              [src]="image.fields.file.url" 
+              [alt]="image.fields.file.fileName || club.fields['title']"> 
+          }
+            </div>
+          </div>
+          <div class="resource-container">
+                      @if(club.fields.links){
+            @for(resource of club.fields.links; track resource.sys.id){
+            <a [href]="resource.fields.url" target="_blank" rel="noopener noreferrer">{{resource.fields.text}}</a>
+            }
+          }
+          @if(club.fields.newsletter){
+            @for (newsletter of club.fields.newsletter; track newsletter.sys.id) {
+ <a [href]="'https:'+newsletter.fields.file.url" target="_blank" rel="noopener noreferrer">{{newsletter.fields.title}}</a>
+            }
+          }
+          </div>
+
+
+          @if (club.fields.officers) {
+            <h1>Officers</h1>
+            <div class="officers-container">
+                        @for(officer of club.fields.officers; track officer.sys.id){
+            <div class="officer-card">
+              <div class="officer-image-container">
+                <!-- The image will be displayed here -->
+                <img [src]="" [alt]="">
+              </div>
+              <div class="officer-info">
+                <h3>{{officer.fields.office}}</h3>
+                <p>{{officer.fields.name}}</p>
+                <!-- The mailto: link makes the email clickable -->
+                <a [href]="'mailto:' + officer.fields.email" target="_blank">{{officer.fields.email}}</a>
+              </div>
+            </div>
+          }
+            </div>
+          }
+
+
+          <!-- Assuming you have an optional mainImage asset linked -->
+
+  
+          <a routerLink="/">Back to home</a>
+        </article>
+      } @else { 
+        <!-- This handles the case where the slug was valid but no club was found -->
+        <h2>Club Not Found</h2>
+        <p>We couldn't find a club with that URL.</p>
+        <a routerLink="/">Back to home</a>
+      }
+    }
+  }
