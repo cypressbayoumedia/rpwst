@@ -1,0 +1,97 @@
+/* General container and typography for a clean look */
+.resources-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 1rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  }
+  
+  h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .subtitle {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 3rem;
+  }
+  
+  .resource-section h2 {
+    font-size: 1.8rem;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* The responsive grid for the resource cards */
+  .resource-grid {
+    display: grid;
+    /* Creates flexible columns: they will be at least 300px wide, and will auto-fit as many as possible */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  /* Styling for each individual resource card */
+  .resource-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-decoration: none;
+    color: #333;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  /* Hover effect for interactive cards */
+  .resource-card:not(.disabled):hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-content {
+    flex-grow: 1;
+  }
+  
+  .card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem 0;
+  }
+  
+  .card-description {
+    font-size: 0.9rem;
+    color: #555;
+    margin: 0;
+  }
+  
+  /* Arrow icon for visual indication of a link */
+  .card-arrow {
+    font-size: 1.5rem;
+    color: #007bff;
+    margin-left: 1rem;
+    transition: transform 0.3s ease;
+  }
+  
+  .resource-card:not(.disabled):hover .card-arrow {
+    transform: translateX(5px);
+  }
+  
+  /* Styling for disabled cards (those without a URL) */
+  .resource-card.disabled {
+    background-color: #f8f9fa;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+  
+  .card-status {
+    font-style: italic;
+    color: #888;
+    margin-left: 1rem;
+  }

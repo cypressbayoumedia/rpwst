@@ -1,0 +1,29 @@
+<!-- src/app/toolbar/toolbar.component.html -->
+
+<header class="main-toolbar">
+  <div class="toolbar-logo">
+    <a routerLink="/"><img src="/stpr-logo.svg" width="50px" height="50px"/>
+
+      <span class="logo-text">St. Tammany Parish Republicans</span>
+      </a>
+  </div>
+    <nav class="toolbar-navigation">
+      <ul>
+        <li>
+          <a 
+            routerLink="/"
+            routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{exact: true}">
+            Home
+          </a>
+        </li>
+        <li>
+          <a 
+            routerLink="/resources"
+            routerLinkActive="active-link">
+            Resources
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>

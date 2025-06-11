@@ -1,0 +1,68 @@
+/* src/app/toolbar/toolbar.component.css */
+
+.main-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    height: 64px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  
+  .toolbar-logo a {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .logo-text {
+    margin-left: 10px;
+    font-size: 1.2rem;
+  }
+  
+  /* Hide text on smaller screens */
+  .logo-text {
+    display: none;
+  }
+
+  .toolbar-navigation ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1.5rem; /* Space between navigation items */
+  }
+  
+  .toolbar-navigation a {
+    display: block;
+    text-decoration: none;
+    color: #555;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 1.25rem 0; /* Vertical padding to create space for the bottom border */
+    border-bottom: 3px solid transparent; /* Placeholder for the active state */
+    transition: color 0.3s ease, border-bottom-color 0.3s ease;
+  }
+  
+  .toolbar-navigation a:hover {
+    color: #0056b3;
+  }
+  
+  /* THIS IS THE STYLE FOR THE ACTIVE ROUTE */
+  .toolbar-navigation a.active-link {
+    color: #007bff;
+    font-weight: 700;
+    border-bottom-color: #007bff; /* Highlight with a blue bottom border */
+  }
+
+  /* Show text on larger screens */
+  @media (min-width: 768px) { /* Adjust breakpoint as needed */
+    .logo-text {
+      display: inline;
+    }
+  }

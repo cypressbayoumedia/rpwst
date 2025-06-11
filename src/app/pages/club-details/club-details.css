@@ -1,219 +1,391 @@
-/*
- * The main container for the entire component.
- * We use this to set a max-width and center it on the page.
-*/
-
-.officers-container{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-  }
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(15px); /* Start 15px down */
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);    /* End at its normal position */
-    }
-  }
-  .club-text {
-    animation: fadeIn 0.7s ease-out 0.5s forwards; /* Starts after a 0.5s delay */
-  }
-
+/* === Main Layout Container === */
 article {
-    max-width: 1100px;
-    margin: 2rem auto;
-    padding: 1rem;
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+/* === Club Details Section === */
+.club-details {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.club-text {
+  flex: 1;
+  min-width: 280px;
+}
+
+.club-text h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  color: #000;
+}
+
+.club-text p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #333;
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+.club-logo-container {
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.club-image {
+  width: 100%;
+  max-width: 240px;
+  height: auto;
+  border-radius: 50%;
+  object-fit: contain;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  padding: 1rem;
+  animation: scaleIn 0.8s ease-out forwards;
+}
+
+
+/* === Officer Grid === */
+.officers-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+/* === Officer Card === */
+.officer-card {
+  background-color: #eaeaea;
+  border-radius: 20px;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  overflow: hidden;
+}
+
+.officer-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+.officer-image-container {
+  background-color: #c8102e;
+  border-radius: 12px;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.officer-image-container img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 0.5rem;
+}
+
+.officer-info h3 {
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 0.25rem;
+}
+
+.officer-info p {
+  font-size: 1rem;
+  margin: 0 0 0.75rem;
+  color: #333;
+}
+
+.officer-info a {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  text-decoration: underline;
+  word-break: break-word;
+}
+
+/* === Resource Buttons / Links === */
+.resource-container a,
+.back-link {
+  display: inline-block;
+  margin: 0.5rem 1rem 0.5rem 0;
+  padding: 1em;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 0.5em;
+  color: #eaeaea;
+  background-color: #d50000;
+}
+
+.show-more-button {
+  display: inline-block;
+  margin: 0.5rem 1rem 0.5rem 0;
+  padding: 0.5em 1em; /* Adjust padding to be slightly less than resource links */
+  font-weight: 500;
+  text-decoration: underline; /* Use underline to make it look more like a link */
+  border: none; /* Remove default button border */
+  background: none; /* Remove default button background */
+  color: #d50000; /* Use the primary color */
+  cursor: pointer;
+  font-size: 1rem; /* Match the font size of resource links */
+}
+
+/* === Gallery Section === */
+.gallery-title {
+  margin: 3rem 0 1.5rem;
+}
+
+.gallery-container {
+  column-count: 3;
+  column-gap: 1rem;
+}
+
+.gallery-item {
+  break-inside: avoid;
+  margin-bottom: 1rem;
+  display: inline-block;
+  width: 100%;
+}
+
+.gallery-item img {
+  width: 100%;
+  display: block;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery-item img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+.gallery-item-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.5); /* Make text more readable */
+}
+/* === Navigation Link === */
+article > a[routerLink="/"] {
+  display: inline-block;
+  margin-top: 1rem;
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+article > a[routerLink="/"]:hover {
+  text-decoration: underline;
+}
+
+/* === Keyframe Animations === */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
   }
-  
-  /*
-   * This is the main layout container for the two columns (text and image).
-   * We use Flexbox to align the items side-by-side.
-  */
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* === Responsive Design === */
+@media (max-width: 992px) {
   .club-details {
-    display: flex;
-    gap: 2rem; /* Creates space between the text and the image */
-    align-items: center; /* Vertically aligns the text and image */
+    grid-template-columns: 1fr;
+  }
+
+  .gallery-container {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .club-details {
+    flex-direction: column;
+  }
+
+  .club-logo-container {
+    order: -1;
     margin-bottom: 2rem;
   }
-  
-  /*
-   * The left column containing the text content.
-   * `flex: 2;` makes it take up roughly twice the space of the image column.
-  */
-  .club-text {
-    flex: 2;
-  }
-  
-  /*
-   * The right column containing the logo/image.
-   * `flex: 1;` makes it take up half the space of the text column.
-   * It's also a flex container itself to perfectly center the image inside it.
-  */
-  .club-logo-container {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  /*
-   * Styling for the heading (<h1>).
-   * Large, bold, and with good line-height for readability.
-  */
+
   .club-text h1 {
-    font-size: 3rem;
-    font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 1.5rem;
-    color: #1a1a1a;
+    font-size: 2.2rem;
   }
-  
-  /*
-   * Styling for the paragraph text from Contentful.
-   * The selector `p` will apply to the `<p>` tag where you bind `innerHTML`.
-  */
+
   .club-text p {
-    font-size: 1.1rem;
-    line-height: 1.7;
-    color: #4f4f4f;
-  }
-  
-  /*
-   * Styling for the club image/logo.
-   * We give it a max-width and make it circular.
-  */
-  .club-image {
-    max-width: 220px;
-    width: 100%;
-    height: auto;
-    border-radius: 50%; /* This makes the image a perfect circle */
-    object-fit: contain; /* Ensures the image fits well within the circle */
-  }
-  
-  /*
-   * Simple styling for the "Back to All Clubs" link.
-  */
-  article > a[routerLink="/"] {
-    display: inline-block;
-    margin-top: 1rem;
-    color: #007bff;
-    text-decoration: none;
-    font-weight: 500;
-  }
-  
-  article > a[routerLink="/"]:hover {
-    text-decoration: underline;
-  }
-  
-  
-  /* --- Responsive Design for Mobile Screens --- */
-  /*
-   * When the screen is 768px or less, we stack the columns vertically.
-  */
-  @media (max-width: 768px) {
-    .club-details {
-      flex-direction: column; /* Stack text and image on top of each other */
-    }
-    .officers-container{
-        display: grid;
-        grid-template-columns: repeat(1, 1fr);
-        gap: 2rem;
-      }
-    /*
-     * `order: -1` is a powerful trick to visually re-order elements.
-     * This moves the logo container *above* the text on mobile screens.
-    */
-    .club-logo-container {
-      order: -1;
-      margin-bottom: 2rem;
-    }
-  
-    /* Adjust font sizes for smaller screens */
-    .club-text h1 {
-      font-size: 2.2rem;
-    }
-  
-    .club-text p {
-      font-size: 1rem;
-    }
-  }
-
-  /* Use a host selector to ensure the component fits well in a grid */
-  
-  /* The main container for the card */
-  .officer-card {
-    background-color: #EAEAEA; /* A light grey background */
-    border-radius: 20px;       /* Generous rounded corners for the whole card */
-    padding: 1rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* A subtle shadow for depth */
-    overflow: hidden;          /* This is key to making sure the inner image's corners don't poke out */
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  }
-  
-  .officer-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
-  }
-  
-  /* Container for the image, with the red placeholder background */
-  .officer-image-container {
-    background-color: #c8102e; /* A strong Republican red */
-    border-radius: 12px;       /* Slightly smaller rounded corners for the image area */
-    margin-bottom: 1rem;
-    /* This ensures the image placeholder has a square shape before the image loads */
-    aspect-ratio: 1 / 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .officer-image-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ensures the image covers the area without stretching */
-    border-radius: 12px; /* Match the container's border radius */
-  }
-  
-  /* Container for the text content below the image */
-  .officer-info {
-    padding: 0.5rem;
-  }
-  
-  /* Styling for the officer's title (e.g., "President") */
-  .officer-info h3 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin: 0 0 0.25rem 0;
-    color: #1a1a1a;
-  }
-  
-  /* Styling for the officer's name */
-  .officer-info p {
     font-size: 1rem;
-    margin: 0 0 0.75rem 0;
-    color: #333;
   }
-  
-  /* Styling for the email link */
-  .officer-info a {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #1a1a1a;
-    text-decoration: underline;
-    word-break: break-all; /* Prevents long emails from overflowing */
-  }
+}
 
-  .resource-container a{
-    display: inline-block;
-    margin-top: 1rem;
-    margin-right: 1em;
-    color: #EAEAEA;
-    background-color: #d50000;
-    text-decoration: none;
-    font-weight: 500;
-    padding: 1em;
-    border-radius: .5em ;
+@media (max-width: 576px) {
+  .gallery-container {
+    column-count: 1;
   }
+}
+
+/* === Events Section === */
+.events-title {
+  margin: 3rem 0 1rem;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #000;
+}
+
+.events-subtitle {
+  margin: 2rem 0 1rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+  border-bottom: 2px solid #eaeaea;
+  padding-bottom: 0.5rem;
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.event-card {
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.event-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* The calendar-style date block */
+.event-date {
+  flex-shrink: 0;
+  width: 70px;
+  height: 70px;
+  background-color: #d50000; /* Primary action color */
+  color: white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: bold;
+}
+
+.event-date .month {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.event-date .day {
+  font-size: 2rem;
+  line-height: 1.1;
+  letter-spacing: -1px;
+}
+
+/* Event text content */
+.event-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.event-info h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 0.25rem;
+}
+
+.event-info .event-location {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.event-info .event-description {
+  font-size: 0.95rem;
+  color: #444;
+  flex-grow: 1; /* Pushes the link to the bottom */
+}
+
+.event-info .event-link {
+  margin-top: 0.75rem;
+  font-weight: 600;
+  color: #d50000;
+  text-decoration: none;
+  align-self: flex-start;
+}
+.event-info .event-link:hover {
+  text-decoration: underline;
+}
+
+.toggle-events-button {
+  display: block;
+  margin: 1.5rem 0;
+  padding: 0.5em 1em;
+  font-weight: 500;
+  border: 1px solid #d50000;
+  background: none;
+  color: #d50000;
+  cursor: pointer;
+  border-radius: 0.5em;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.toggle-events-button:hover {
+  background-color: #d50000;
+  color: white;
+}
+
+.no-events-message {
+  padding: 1rem;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  color: #555;
+}
+
+/* Style for past events to make them look less prominent */
+.past-events .event-card {
+  opacity: 0.7;
+}
+.past-events .event-card:hover {
+  opacity: 1;
+}
+
+.meeting-description a {
+  text-decoration: none;
+  color: #d50000;
+}

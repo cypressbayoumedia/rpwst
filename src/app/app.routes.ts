@@ -7,4 +7,5 @@ export const routes: Routes = [
   { path: '', component: Home },
   { path: 'clubs', component: Clubs },
   { path: 'clubs/:slug', component: ClubDetails },
+  { path: 'resources', loadComponent: () => import('./pages/resources/resources').then(m => m.Resources)}
 ];

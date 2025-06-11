@@ -1,0 +1,61 @@
+<div class="resources-container">
+    <h1>Helpful Resources</h1>
+    <p class="subtitle">Stay informed and get involved with these official resources.</p>
+  
+    <!-- Section for Republican Party Resources -->
+    <section class="resource-section">
+      <h2>Republican Party Resources</h2>
+      <div class="resource-grid">
+        @for(resource of republicanResources; track resource.title) {
+          <!-- The entire card is a link if a URL exists -->
+          <a [href]="resource.url" 
+             target="_blank" 
+             rel="noopener noreferrer"
+             class="resource-card"
+             [class.disabled]="!resource.url">
+            
+            <div class="card-content">
+              <h3 class="card-title">{{ resource.title }}</h3>
+              @if(resource.description) {
+                <p class="card-description">{{ resource.description }}</p>
+              }
+            </div>
+            
+            <!-- Show an arrow only if it's a clickable link -->
+            @if(resource.url) {
+              <span class="card-arrow">→</span>
+            } @else {
+              <span class="card-status">Coming Soon</span>
+            }
+  
+          </a>
+        }
+      </div>
+    </section>
+  
+    <!-- Section for Government and Voter Resources -->
+    <section class="resource-section">
+      <h2>Government & Voter Resources</h2>
+      <div class="resource-grid">
+        @for(resource of governmentResources; track resource.title) {
+          <a [href]="resource.url" 
+             target="_blank" 
+             rel="noopener noreferrer"
+             class="resource-card"
+             [class.disabled]="!resource.url">
+  
+            <div class="card-content">
+              <h3 class="card-title">{{ resource.title }}</h3>
+              @if(resource.description) {
+                <p class="card-description">{{ resource.description }}</p>
+              }
+            </div>
+  
+            @if(resource.url) {
+              <span class="card-arrow">→</span>
+            }
+          </a>
+        }
+      </div>
+    </section>
+  </div>

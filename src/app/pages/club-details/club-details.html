@@ -34,6 +34,19 @@
           }
             </div>
           </div>
+<!-- Meeting Section -->
+          
+          <div class="meeting-container">
+            @if (club.fields.meeting) {
+              @for (meeting of club.fields.meeting; track meeting.sys.id) {
+              <h3 class="meeting-date">Next Meeting: {{meeting.fields.date}}</h3>
+              <h4 class="meeting-location">{{meeting.fields.location}}</h4>
+              <p class="meeting-description">{{meeting.fields.description}} <a [href]="meeting.fields.pay_link" target="_blank" rel="noopener noreferrer">Pay Online &#8594;</a></p>
+              }    
+            }  
+          </div> 
+
+          <!-- Links Section -->
           <div class="resource-container">
                       @if(club.fields.links){
             @for(resource of club.fields.links; track resource.sys.id){
@@ -42,9 +55,17 @@
           }
           @if(club.fields.newsletter){
             @for (newsletter of club.fields.newsletter; track newsletter.sys.id) {
- <a [href]="'https:'+newsletter.fields.file.url" target="_blank" rel="noopener noreferrer">{{newsletter.fields.title}}</a>
+              @if ($index < 3 || showAllNewsletters()) {
+                <a [href]="'https:'+newsletter.fields.file.url" target="_blank" rel="noopener noreferrer">{{newsletter.fields.title}}</a>
+              }
             }
+ @if (club.fields.newsletter.length > 3 && !showAllNewsletters()) {
+ <button class="show-more-button" (click)="toggleShowAllNewsletters()">Show More</button>
           }
+ @if (club.fields.newsletter.length > 3 && showAllNewsletters()) {
+ <button class="show-more-button" (click)="toggleShowAllNewsletters()">Show Less</button>
+ }
+ }
           </div>
 
 
@@ -68,6 +89,81 @@
             </div>
           }
 
+  <!-- EVENTS SECTION -->
+  @if (club.fields.events && club.fields.events.length > 0) {
+    <h1 class="events-title">Events</h1>
+
+    <!-- Upcoming Events -->
+    <h2 class="events-subtitle">Upcoming</h2>
+    <div class="events-grid">
+      @for (event of upcomingEvents(); track event.sys.id) {
+        <div class="event-card">
+          <div class="event-date">
+            <!-- Assuming dateTime is a full ISO string -->
+            <span class="month">{{ event.fields.dateTime | date:'MMM' }}</span>
+            <span class="day">{{ event.fields.dateTime | date:'d' }}</span>
+          </div>
+          <div class="event-info">
+            <h3>{{ event.fields.title }}</h3>
+            @if(event.fields.address) {
+              <p class="event-location">{{ event.fields.venue}}, {{ event.fields.address }}</p>
+            }
+            <p class="event-description" [innerHTML]=" event.fields.longDescription | mdToHtml"></p>
+            @if(event.fields.url) {
+              <a class="event-link" [href]="event.fields.url" target="_blank" rel="noopener noreferrer">More Info →</a>
+            }
+          </div>
+        </div>
+      } @empty {
+        <p class="no-events-message">No upcoming events scheduled. Please check back soon!</p>
+      }
+    </div>
+
+    <!-- Toggle Button for Past Events -->
+    @if(pastEvents().length > 0) {
+      <button class="toggle-events-button" (click)="togglePastEvents()">
+        {{ showPastEvents() ? 'Hide Past Events' : 'Show Past Events' }}
+      </button>
+    }
+
+    <!-- Past Events (conditional) -->
+    @if(showPastEvents()) {
+      <h2 class="events-subtitle">Past</h2>
+      <div class="events-grid past-events">
+        @for (event of pastEvents(); track event.sys.id) {
+          <div class="event-card">
+            <div class="event-date">
+              <span class="month">{{ event.fields.dateTime | date:'MMM' }}</span>
+              <span class="day">{{ event.fields.dateTime | date:'d' }}</span>
+            </div>
+            <div class="event-info">
+              <h3>{{ event.fields.title }}</h3>
+              <p class="event-location">{{ event.fields.location }}</p>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+
+
+ <!-- NEW GALLERY SECTION -->
+ @if (club.fields.clubPhotos && club.fields.clubPhotos.length > 0) {
+  <h1 class="gallery-title">Gallery</h1>
+  <div class="gallery-container">
+    @for(galleryImage of club.fields.clubPhotos; track galleryImage.sys.id) {
+      <div class="gallery-item">
+        <img [src]="galleryImage.fields.file.url" 
+             [alt]="galleryImage.fields.title || 'Gallery image'">
+             @if(galleryImage.fields.title) {
+              <div class="gallery-item-info">
+                <p class="gallery-item-title">{{ galleryImage.fields.title }}</p>
+              </div>
+            }
+      </div>
+    }
+  </div>
+}
 
           <!-- Assuming you have an optional mainImage asset linked -->
 

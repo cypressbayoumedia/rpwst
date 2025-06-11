@@ -1,8 +1,18 @@
-<header class="header">
-  <h1>St. Tammany Parish Republicans</h1>
-</header>
 <section class="banner-section">
-  <img src="path/to/american-flag.jpg" alt="American Flag Banner" class="banner-image">
+ <div class="carousel-container">
+  <div class="carousel-images" [style.transform]="'translateX(-' + currentImageIndex * 100 + '%)'">
+ @for (image of carouselImages; track $index) {
+  <img [src]="image" alt="American Flag Banner" [style.left]=" $index * 100 + '%'" [style.opacity]="currentImageIndex === $index ? 1 : 0" [style.zIndex]="currentImageIndex === $index ? 1 : 0">
+ }
+  </div>
+  <button class="prev-button" (click)="prevImage()">&lt;</button>
+  <button class="next-button" (click)="nextImage()">&gt;</button>
+  <div class="carousel-dots">
+    @for (image of carouselImages; track $index) {
+ <span class="dot" [class.active]="currentImageIndex === $index" (click)="changeImage($index)"></span>
+ }
+  </div>
+ </div>
 </section>
 <section class="clubs-description-section">
   <div class="description-content">
