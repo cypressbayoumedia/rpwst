@@ -1,0 +1,14 @@
+.events-container {
+    margin-top: 2em;
+  }
+  
+  .event-card {
+    border: 1px solid #eee;
+    padding: 1em;
+    margin-bottom: 1em;
+    border-radius: 4px;
+  }
+  
+  .event-card h3 {
+    margin-top: 0;
+  }

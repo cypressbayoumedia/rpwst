@@ -1,0 +1,12 @@
+@switch (eventsResource.status()) {
+  @case ('loading') {
+    <p>Loading events...</p>
+  }
+  @case ('error') {
+    <p>Error loading events.</p>
+  }
+
+  @case ('resolved') {
+
+  }
+}
