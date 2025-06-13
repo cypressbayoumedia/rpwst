@@ -1,12 +1,12 @@
 import { Component, computed, inject, input, resource, signal } from '@angular/core';
 import { Contentful } from '../../core/contentful';
-import { DatePipe} from '@angular/common';
+import { DatePipe, JsonPipe} from '@angular/common';
 import { Entry } from 'contentful';
 import { MdToHtmlPipe } from '../../core/md-to-html-pipe';
 import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-club-details',
-  imports: [MdToHtmlPipe, RouterLink, DatePipe],
+  imports: [MdToHtmlPipe, RouterLink, DatePipe, JsonPipe],
   templateUrl: './club-details.html',
   styleUrl: './club-details.css'
 })

@@ -1,180 +1,191 @@
 <!-- The @switch block reads the status of our resource signal -->
 @switch (clubResource.status()) {
 
-    @case ('loading') {
-      <p>Loading club details...</p>
+@case ('loading') {
+<p>Loading club details...</p>
+}
+
+@case ('error') {
+<p class="error">Failed to load club details. Please try again.</p>
+<a routerLink="/clubs">Back to Clubs</a>
+}
+
+@case ('resolved') {
+<!-- Use @let to create a local variable and check if it's a valid club entry -->
+@let resolvedClub = clubResource.value();
+
+@if (resolvedClub && resolvedClub.fields) {
+@let club = resolvedClub; <!-- Assign to 'club' only if valid -->
+<article>
+  <div class="club-details">
+    <div class="club-text">
+      <h1>{{ club.fields.title }}</h1>
+
+      <!-- Assuming you have a description field -->
+      @if (club.fields['missionabout']) {
+      <p [innerHTML]="club.fields['missionabout'] | mdToHtml"></p>
+      }
+    </div>
+    <div>
+      @if (club.fields['image']; as image) {
+      <img class="club-image" [src]="image.fields.file.url" [alt]="image.fields.file.fileName || club.fields['title']">
+      }
+    </div>
+  </div>
+
+  <!-- Meeting Section -->
+  @if (club.fields.meeting; as meeting) {
+  <div class="meeting-container">
+
+    <h3 class="meeting-date">Next Meeting: {{meeting.fields.date | date:'fullDate'}}</h3>
+    <h4 class="meeting-location"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+        width="24px" fill="#101415">
+        <path
+          d="M480-480q33 0 56.5-23.5T560-560q0-33-23.5-56.5T480-640q-33 0-56.5 23.5T400-560q0 33 23.5 56.5T480-480Zm0 400Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Z" />
+      </svg>{{meeting.fields.location}}</h4>
+    <p class="meeting-description">
+
+      @if (meeting.fields.description) {
+    <p [innerHTML]="meeting.fields.description | mdToHtml"></p>
     }
-  
-    @case ('error') {
-      <p class="error">Failed to load club details. Please try again.</p>
-      <a routerLink="/clubs">Back to Clubs</a>
+
+    @if (meeting.fields.pay_link) {
+    <a [href]="meeting.fields.pay_link" target="_blank" rel="noopener noreferrer">Pay Online &#8594;</a>
     }
-  
-    @case ('resolved') {
-      <!-- Use @let to create a local variable and check if it's a valid club entry -->
- @let resolvedClub = clubResource.value();
+    </p>
 
- @if (resolvedClub && resolvedClub.fields) {
- @let club = resolvedClub; <!-- Assign to 'club' only if valid -->
-        <article>
-          <div class="club-details">
-            <div class="club-text">
-                          <h1>{{ club.fields.title }}</h1>
-            
-            <!-- Assuming you have a description field -->
-            @if (club.fields['missionabout']) {
-              <p [innerHTML]="club.fields['missionabout'] | mdToHtml"></p>  
-            }
-            </div>
-            <div>
-                        @if (club.fields['image']; as image) {
-            <img class="club-image"
-              [src]="image.fields.file.url" 
-              [alt]="image.fields.file.fileName || club.fields['title']"> 
-          }
-            </div>
-          </div>
-<!-- Meeting Section -->
-          
-          <div class="meeting-container">
-            @if (club.fields.meeting) {
-              @for (meeting of club.fields.meeting; track meeting.sys.id) {
-              <h3 class="meeting-date">Next Meeting: {{meeting.fields.date}}</h3>
-              <h4 class="meeting-location">{{meeting.fields.location}}</h4>
-              <p class="meeting-description">{{meeting.fields.description}} <a [href]="meeting.fields.pay_link" target="_blank" rel="noopener noreferrer">Pay Online &#8594;</a></p>
-              }    
-            }  
-          </div> 
-
-          <!-- Links Section -->
-          <div class="resource-container">
-                      @if(club.fields.links){
-            @for(resource of club.fields.links; track resource.sys.id){
-            <a [href]="resource.fields.url" target="_blank" rel="noopener noreferrer">{{resource.fields.text}}</a>
-            }
-          }
-          @if(club.fields.newsletter){
-            @for (newsletter of club.fields.newsletter; track newsletter.sys.id) {
-              @if ($index < 3 || showAllNewsletters()) {
-                <a [href]="'https:'+newsletter.fields.file.url" target="_blank" rel="noopener noreferrer">{{newsletter.fields.title}}</a>
-              }
-            }
- @if (club.fields.newsletter.length > 3 && !showAllNewsletters()) {
- <button class="show-more-button" (click)="toggleShowAllNewsletters()">Show More</button>
-          }
- @if (club.fields.newsletter.length > 3 && showAllNewsletters()) {
- <button class="show-more-button" (click)="toggleShowAllNewsletters()">Show Less</button>
- }
- }
-          </div>
+  </div>
+  }
+  <!-- Links Section -->
+  <div class="resource-container">
+    @if(club.fields.links){
+    @for(resource of club.fields.links; track resource.sys.id){
+    <a [href]="resource.fields.url" target="_blank" rel="noopener noreferrer">{{resource.fields.text}}</a>
+    }
+    }
+    @if(club.fields.newsletter){
+    @for (newsletter of club.fields.newsletter; track newsletter.sys.id) {
+    @if ($index < 3 || showAllNewsletters()) { <a [href]="'https:'+newsletter.fields.file.url" target="_blank"
+      rel="noopener noreferrer">{{newsletter.fields.title}}</a>
+      }
+      }
+      @if (club.fields.newsletter.length > 3 && !showAllNewsletters()) {
+      <button class="show-more-button" (click)="toggleShowAllNewsletters()">Show More</button>
+      }
+      @if (club.fields.newsletter.length > 3 && showAllNewsletters()) {
+      <button class="show-more-button" (click)="toggleShowAllNewsletters()">Show Less</button>
+      }
+      }
+  </div>
 
 
-          @if (club.fields.officers) {
-            <h1>Officers</h1>
-            <div class="officers-container">
-                        @for(officer of club.fields.officers; track officer.sys.id){
-            <div class="officer-card">
-              <div class="officer-image-container">
-                <!-- The image will be displayed here -->
-                <img [src]="" [alt]="">
-              </div>
-              <div class="officer-info">
-                <h3>{{officer.fields.office}}</h3>
-                <p>{{officer.fields.name}}</p>
-                <!-- The mailto: link makes the email clickable -->
-                <a [href]="'mailto:' + officer.fields.email" target="_blank">{{officer.fields.email}}</a>
-              </div>
-            </div>
-          }
-            </div>
-          }
+  @if (club.fields.officers) {
+  <h1>Officers</h1>
+  <div class="officers-container">
+    @for(officer of club.fields.officers; track officer.sys.id){
+    <div class="officer-card">
+      <div class="officer-image-container">
+        <!-- The image will be displayed here -->
+        <img [src]="officer.fields.headshot.fields.file.url" [alt]="">
+      </div>
+      <div class="officer-info">
+        <h3>{{officer.fields.office}}</h3>
+        <p>{{officer.fields.name}}</p>
+        <!-- The mailto: link makes the email clickable -->
+         @if (officer.fields.email) {
+          <a [href]="'mailto:' + officer.fields.email" target="_blank">{{officer.fields.email}}</a>
+         }
+      </div>
+    </div>
+    }
+  </div>
+  }
 
   <!-- EVENTS SECTION -->
   @if (club.fields.events && club.fields.events.length > 0) {
-    <h1 class="events-title">Events</h1>
+  <h1 class="events-title">Events</h1>
 
-    <!-- Upcoming Events -->
-    <h2 class="events-subtitle">Upcoming</h2>
-    <div class="events-grid">
-      @for (event of upcomingEvents(); track event.sys.id) {
-        <div class="event-card">
-          <div class="event-date">
-            <!-- Assuming dateTime is a full ISO string -->
-            <span class="month">{{ event.fields.dateTime | date:'MMM' }}</span>
-            <span class="day">{{ event.fields.dateTime | date:'d' }}</span>
-          </div>
-          <div class="event-info">
-            <h3>{{ event.fields.title }}</h3>
-            @if(event.fields.address) {
-              <p class="event-location">{{ event.fields.venue}}, {{ event.fields.address }}</p>
-            }
-            <p class="event-description" [innerHTML]=" event.fields.longDescription | mdToHtml"></p>
-            @if(event.fields.url) {
-              <a class="event-link" [href]="event.fields.url" target="_blank" rel="noopener noreferrer">More Info →</a>
-            }
-          </div>
-        </div>
-      } @empty {
-        <p class="no-events-message">No upcoming events scheduled. Please check back soon!</p>
-      }
-    </div>
-
-    <!-- Toggle Button for Past Events -->
-    @if(pastEvents().length > 0) {
-      <button class="toggle-events-button" (click)="togglePastEvents()">
-        {{ showPastEvents() ? 'Hide Past Events' : 'Show Past Events' }}
-      </button>
-    }
-
-    <!-- Past Events (conditional) -->
-    @if(showPastEvents()) {
-      <h2 class="events-subtitle">Past</h2>
-      <div class="events-grid past-events">
-        @for (event of pastEvents(); track event.sys.id) {
-          <div class="event-card">
-            <div class="event-date">
-              <span class="month">{{ event.fields.dateTime | date:'MMM' }}</span>
-              <span class="day">{{ event.fields.dateTime | date:'d' }}</span>
-            </div>
-            <div class="event-info">
-              <h3>{{ event.fields.title }}</h3>
-              <p class="event-location">{{ event.fields.location }}</p>
-            </div>
-          </div>
+  <!-- Upcoming Events -->
+  <h2 class="events-subtitle">Upcoming</h2>
+  <div class="events-grid">
+    @for (event of upcomingEvents(); track event.sys.id) {
+    <div class="event-card">
+      <div class="event-date">
+        <!-- Assuming dateTime is a full ISO string -->
+        <span class="month">{{ event.fields.dateTime | date:'MMM' }}</span>
+        <span class="day">{{ event.fields.dateTime | date:'d' }}</span>
+      </div>
+      <div class="event-info">
+        <h3>{{ event.fields.title }}</h3>
+        @if(event.fields.address) {
+        <p class="event-location">{{ event.fields.venue}}, {{ event.fields.address }}</p>
+        }
+        <p class="event-description" [innerHTML]=" event.fields.longDescription | mdToHtml"></p>
+        @if(event.fields.url) {
+        <a class="event-link" [href]="event.fields.url" target="_blank" rel="noopener noreferrer">More Info →</a>
         }
       </div>
+    </div>
+    } @empty {
+    <p class="no-events-message">No upcoming events scheduled. Please check back soon!</p>
     }
+  </div>
+
+  <!-- Toggle Button for Past Events -->
+  @if(pastEvents().length > 0) {
+  <button class="toggle-events-button" (click)="togglePastEvents()">
+    {{ showPastEvents() ? 'Hide Past Events' : 'Show Past Events' }}
+  </button>
+  }
+
+  <!-- Past Events (conditional) -->
+  @if(showPastEvents()) {
+  <h2 class="events-subtitle">Past</h2>
+  <div class="events-grid past-events">
+    @for (event of pastEvents(); track event.sys.id) {
+    <div class="event-card">
+      <div class="event-date">
+        <span class="month">{{ event.fields.dateTime | date:'MMM' }}</span>
+        <span class="day">{{ event.fields.dateTime | date:'d' }}</span>
+      </div>
+      <div class="event-info">
+        <h3>{{ event.fields.title }}</h3>
+        <p class="event-location">{{ event.fields.location }}</p>
+      </div>
+    </div>
+    }
+  </div>
+  }
   }
 
 
- <!-- NEW GALLERY SECTION -->
- @if (club.fields.clubPhotos && club.fields.clubPhotos.length > 0) {
+  <!-- NEW GALLERY SECTION -->
+  @if (club.fields.clubPhotos && club.fields.clubPhotos.length > 0) {
   <h1 class="gallery-title">Gallery</h1>
   <div class="gallery-container">
     @for(galleryImage of club.fields.clubPhotos; track galleryImage.sys.id) {
-      <div class="gallery-item">
-        <img [src]="galleryImage.fields.file.url" 
-             [alt]="galleryImage.fields.title || 'Gallery image'">
-             @if(galleryImage.fields.title) {
-              <div class="gallery-item-info">
-                <p class="gallery-item-title">{{ galleryImage.fields.title }}</p>
-              </div>
-            }
+    <div class="gallery-item">
+      <img [src]="galleryImage.fields.file.url" [alt]="galleryImage.fields.title || 'Gallery image'">
+      @if(galleryImage.fields.title) {
+      <div class="gallery-item-info">
+        <p class="gallery-item-title">{{ galleryImage.fields.title }}</p>
       </div>
+      }
+    </div>
     }
   </div>
-}
-
-          <!-- Assuming you have an optional mainImage asset linked -->
-
-  
-          <a routerLink="/">Back to home</a>
-        </article>
-      } @else { 
-        <!-- This handles the case where the slug was valid but no club was found -->
-        <h2>Club Not Found</h2>
-        <p>We couldn't find a club with that URL.</p>
-        <a routerLink="/">Back to home</a>
-      }
-    }
   }
+
+  <!-- Assuming you have an optional mainImage asset linked -->
+
+
+  <a routerLink="/">Back to home</a>
+</article>
+} @else {
+<!-- This handles the case where the slug was valid but no club was found -->
+<h2>Club Not Found</h2>
+<p>We couldn't find a club with that URL.</p>
+<a routerLink="/">Back to home</a>
+}
+}
+}

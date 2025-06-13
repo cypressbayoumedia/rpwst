@@ -89,11 +89,11 @@ article {
 }
 
 .officer-image-container img {
-  width: 100px;
-  height: 100px;
+  width: 100%; /* Ensure image takes full width of the container */
+  height: 100%; /* Ensure image takes full height of the container */
   object-fit: cover;
-  border-radius: 50%;
-  margin-bottom: 0.5rem;
+  border-radius: 12px; /* Match the container's border-radius */
+  /* aspect-ratio: 1 / 1; is not strictly needed here as width/height 100% and object-fit handle it */
 }
 
 .officer-info h3 {
@@ -385,7 +385,21 @@ article > a[routerLink="/"]:hover {
   opacity: 1;
 }
 
+.meeting-container{
+  background-color: #d500000c;
+  border-radius: 12px;
+  padding: 1em;
+  width: fit-content;
+  margin-bottom: 1em;
+}
+
 .meeting-description a {
   text-decoration: none;
   color: #d50000;
+}
+
+.meeting-location{
+  display: flex;
+  align-items: center;
+  gap: 0.1rem;
 }
