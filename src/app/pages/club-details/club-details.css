@@ -63,58 +63,87 @@ article {
   gap: 1.5rem;
 }
 
-/* === Officer Card === */
+/* === Officer Card (NEW Glassmorphism Styles) === */
 .officer-card {
-  background-color: #eaeaea;
-  border-radius: 20px;
-  padding: 1rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  position: relative; /* Establishes a stacking context for the glass effect */
+
+  /* A rich, deep red gradient for the background */
+  background: linear-gradient(135deg, #d50000 0%, #9b0000 100%);
+
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+
+  /* Crucial for clipping the glass panel to the card's rounded corners */
   overflow: hidden;
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .officer-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
 }
 
+/* --- Image Container --- */
 .officer-image-container {
-  background-color: #c8102e;
-  border-radius: 12px;
-  aspect-ratio: 1 / 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1rem;
+  padding: 1rem; /* Creates a clean frame around the image */
 }
 
 .officer-image-container img {
-  width: 100%; /* Ensure image takes full width of the container */
-  height: 100%; /* Ensure image takes full height of the container */
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
-  border-radius: 12px; /* Match the container's border-radius */
-  /* aspect-ratio: 1 / 1; is not strictly needed here as width/height 100% and object-fit handle it */
+  border-radius: 16px; /* Rounded corners for the image */
+  border: 2px solid rgba(255, 255, 255, 0.5); /* A subtle border to lift the image */
 }
 
+/* --- The "Glass" Text Panel --- */
+.officer-info {
+  /* The core of the glassmorphism effect */
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px); /* For Safari support */
+
+  /* A subtle top border to define the edge of the glass */
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+
+  padding: 1.5rem;
+  margin-top: -1rem; /* A slight negative margin creates a nice overlap effect */
+}
+
+/* --- Typography for Readability on Glass --- */
+/* All text is now white to stand out against the red background visible through the glass */
+
+/* Officer Title */
 .officer-info h3 {
-  font-weight: 700;
-  color: #1a1a1a;
-  margin: 0 0 0.25rem;
+  font-size: 1.6rem;
+  font-weight: 800;
+  line-height: 1.3;
+  margin: 0 0 0.5rem 0;
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); /* Shadow for readability */
 }
 
+/* Officer Name */
 .officer-info p {
-  font-size: 1rem;
-  margin: 0 0 0.75rem;
-  color: #333;
+  font-size: 1.1rem;
+  margin: 0 0 1.25rem 0;
+  color: #ffffff;
+  opacity: 0.85; /* Makes the name slightly less prominent than the title */
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
+/* Officer Email */
 .officer-info a {
   font-size: 1rem;
-  font-weight: 600;
-  color: #1a1a1a;
+  font-weight: 500;
+  color: #ffffff;
   text-decoration: underline;
-  word-break: break-word;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  word-break: break-all;
 }
+
 
 /* === Resource Buttons / Links === */
 .resource-container a,
@@ -132,14 +161,14 @@ article {
 .show-more-button {
   display: inline-block;
   margin: 0.5rem 1rem 0.5rem 0;
-  padding: 0.5em 1em; /* Adjust padding to be slightly less than resource links */
+  padding: 0.5em 1em;
   font-weight: 500;
-  text-decoration: underline; /* Use underline to make it look more like a link */
-  border: none; /* Remove default button border */
-  background: none; /* Remove default button background */
-  color: #d50000; /* Use the primary color */
+  text-decoration: underline;
+  border: none;
+  background: none;
+  color: #d50000;
   cursor: pointer;
-  font-size: 1rem; /* Match the font size of resource links */
+  font-size: 1rem;
 }
 
 /* === Gallery Section === */
@@ -178,6 +207,7 @@ article {
   font-weight: 500;
   text-shadow: 1px 1px 3px rgba(0,0,0,0.5); /* Make text more readable */
 }
+
 /* === Navigation Link === */
 article > a[routerLink="/"] {
   display: inline-block;
@@ -288,12 +318,11 @@ article > a[routerLink="/"]:hover {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
-/* The calendar-style date block */
 .event-date {
   flex-shrink: 0;
   width: 70px;
   height: 70px;
-  background-color: #d50000; /* Primary action color */
+  background-color: #d50000;
   color: white;
   border-radius: 10px;
   display: flex;
@@ -316,7 +345,6 @@ article > a[routerLink="/"]:hover {
   letter-spacing: -1px;
 }
 
-/* Event text content */
 .event-info {
   display: flex;
   flex-direction: column;
@@ -338,7 +366,7 @@ article > a[routerLink="/"]:hover {
 .event-info .event-description {
   font-size: 0.95rem;
   color: #444;
-  flex-grow: 1; /* Pushes the link to the bottom */
+  flex-grow: 1;
 }
 
 .event-info .event-link {
@@ -377,7 +405,6 @@ article > a[routerLink="/"]:hover {
   color: #555;
 }
 
-/* Style for past events to make them look less prominent */
 .past-events .event-card {
   opacity: 0.7;
 }

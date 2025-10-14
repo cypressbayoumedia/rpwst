@@ -16,9 +16,9 @@ export class Resources {
 
   // Data transcribed from the first table in your image
   republicanResources: ResourceLink[] = [
-    { title: 'National GOP', description: 'Official website for the National Republican Party.' },
+    { title: 'National GOP', url:'https://www gop.com', description: 'Official website for the National Republican Party.' },
     { title: 'National GOP Elected Officials', description: 'Find nationally elected Republican officials.' },
-    { title: 'State GOP Elected Officials', description: 'Find state-level elected Republican officials.' },
+    { title: 'State GOP Elected Officials', url:'https://www.lagop.com/elected-officials-map', description: 'Find state-level elected Republican officials.' },
     { title: 'Local GOP Elected Officials', description: 'Find locally elected Republican officials.' },
     { title: 'Republican National Committee', url: 'https://www.rnc.org' },
     { title: 'National Federation of Republican Women', url: 'https://www.nfrw.org' },

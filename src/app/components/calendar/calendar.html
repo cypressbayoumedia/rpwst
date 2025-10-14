@@ -1,0 +1,30 @@
+<!-- Calendar Preview Card -->
+<section class="calendar-preview-container">
+    <h2>{{ title() }}</h2>
+    <div class="calendar-image-wrapper" (click)="openModal()">
+      <img [src]="imageUrl()" [alt]="imageAlt()">
+      <div class="view-overlay">
+        <span>View Larger</span>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Modal Lightbox (hidden by default) -->
+  @if (isModalOpen()) {
+    <div class="modal-overlay" (click)="closeModal()">
+      
+      <!-- This click stopPropagation prevents the modal from closing when you click *inside* the content -->
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <button class="close-button" (click)="closeModal()" aria-label="Close dialog">×</button>
+        
+        <img [src]="imageUrl()" [alt]="imageAlt()">
+        
+        @if(downloadUrl()) {
+          <a class="download-button" [href]="downloadUrl()" target="_blank" download>
+            Download Calendar
+          </a>
+        }
+      </div>
+  
+    </div>
+  }

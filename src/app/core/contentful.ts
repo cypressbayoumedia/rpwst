@@ -10,11 +10,11 @@ const CONFIG = {
     gallery:'gallery',
     clubs:'Clubs',
     resources:'Resources',
-
-  }
-}
-
-@Injectable({
+    calendar:'calendar'
+  } 
+}             
+ 
+@Injectable({      
   providedIn: 'root'
 })
 export class Contentful {
@@ -47,8 +47,13 @@ export class Contentful {
     return this.get_events({ 'fields.url': slug, limit: 1  })
     .then(items => items[0])
   }
-
+  get_calendar(query?: object): Promise<Entry<any>[]> {
+    return this.cdaClient.getEntries(Object.assign({
+      content_type: CONFIG.contentTypeIds.calendar
+    }, query))
+    .then(res => res.items);
    // convert markdown string to 
+  }
  markdownToHtml(md: string) {
 
   return marked(md)

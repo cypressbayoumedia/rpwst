@@ -16,14 +16,62 @@
 </section>
 <section class="clubs-description-section">
   <div class="description-content">
-    <p>St. Tammany Parish has five active Republican Clubs, four women's groups and one men's group. These groups meet on different days of the week and at different times. All meetings feature a speaker who may be a local and state elected official or an expert in their field speaking on topical subjects.</p>
+    <p>St. Tammany Parish has five active Republican Clubs, four women's groups and one men's group. These groups meet on different days of the week and at different times. All meetings feature a speaker who may be a local and state elected official or an expert in their field speaking on topical subjects. As of December 12, 2024 there are 192,678 registered voters in St. Tammany Parish.  For a detailed breakdown of voters, <a href="https://www.stprov.org/registration-stats.shtml">click here</a></p>
     <div class="graph-placeholder">
       <!-- Placeholder for graph -->
-      <img src="/voter_chart.svg" alt="" srcset="">
+      <img src="/voter_chart.svg" alt="Registered Voters in St. Tammany" srcset="">
+      <p></p>
+     <div align="center"><strong>Registered Voters in St. Tammany</strong></div>
     </div>
 
   </div>
 </section>
+
+<!-- ... other homepage content ... -->
+
+@switch (calendarResource.status()) {
+
+  @case ('loading') {
+    <p>Loading calendars...</p>
+  }
+
+  @case ('resolved') {
+    <!-- The resource has finished loading. Now we get the array of calendars. -->
+    @let calendars = calendarResource.value();
+
+    <!-- Check if the array exists and has items in it. -->
+    @if (calendars && calendars.length > 0) {
+      
+      <!-- *** THE @for LOOP IS HERE *** -->
+      <!-- We loop over each 'calendar' in the 'calendars' array. -->
+      <!-- 'track calendar.sys.id' is crucial for performance. -->
+      @for (calendar of calendars; track calendar.sys.id) {
+        
+        <!--
+          For each calendar in the loop, we create a new instance
+          of our app-calendar component and pass in its specific data.
+        -->
+        <app-calendar 
+          [title]="calendar.fields.title"
+          [imageUrl]="'https:' + calendar.fields.image.fields.file.url"
+          [imageAlt]="calendar.fields.image.fields.description || 'Calendar'"
+          [downloadUrl]="'https:' + calendar.fields.image.fields.file.url"
+        />
+      }
+
+    } @else {
+      <!-- This handles the case where no calendars were found. -->
+      <p>No calendars are available at this time.</p>
+    }
+  }
+
+  @case ('error') {
+    <p>Sorry, we couldn't load the calendars.</p>
+  }
+}
+
+<!-- ... other homepage content ... -->
+
 <section class="club-logos-section">
   <h2>Clubs</h2>
   <div class="logo-container">

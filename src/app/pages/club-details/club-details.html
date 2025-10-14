@@ -65,20 +65,78 @@
     }
     @if(club.fields.newsletter){
     @for (newsletter of club.fields.newsletter; track newsletter.sys.id) {
-    @if ($index < 3 || showAllNewsletters()) { <a [href]="'https:'+newsletter.fields.file.url" target="_blank"
+    @if ($index < 1 || showAllNewsletters()) { <a [href]="'https:'+newsletter.fields.file.url" target="_blank"
       rel="noopener noreferrer">{{newsletter.fields.title}}</a>
       }
       }
-      @if (club.fields.newsletter.length > 3 && !showAllNewsletters()) {
-      <button class="show-more-button" (click)="toggleShowAllNewsletters()">Show More</button>
+      @if (club.fields.newsletter.length > 1 && !showAllNewsletters()) {
+      <button class="show-more-button" (click)="toggleShowAllNewsletters()">Show More Newsletters</button>
       }
-      @if (club.fields.newsletter.length > 3 && showAllNewsletters()) {
+      @if (club.fields.newsletter.length > 1 && showAllNewsletters()) {
       <button class="show-more-button" (click)="toggleShowAllNewsletters()">Show Less</button>
       }
       }
   </div>
 
 
+  <!-- EVENTS SECTION -->
+  @if (club.fields.events && club.fields.events.length > 0) {
+    <h1 class="events-title">Events</h1>
+  
+    <!-- Upcoming Events -->
+    <h2 class="events-subtitle">Upcoming</h2>
+    <div class="events-grid">
+      @for (event of upcomingEvents(); track event.sys.id) {
+      <div class="event-card">
+        <div class="event-date">
+          <!-- Assuming dateTime is a full ISO string -->
+          <span class="month">{{ event.fields.dateTime | date:'MMM' }}</span>
+          <span class="day">{{ event.fields.dateTime | date:'d' }}</span>
+        </div>
+        <div class="event-info">
+          <h3>{{ event.fields.title }}</h3>
+          @if(event.fields.address) {
+          <p class="event-location">{{ event.fields.venue}}, {{ event.fields.address }}</p>
+          }
+          <p class="event-description" [innerHTML]=" event.fields.longDescription | mdToHtml"></p>
+          @if(event.fields.url) {
+          <!-- <a class="event-link" [href]="event.fields.url" target="_blank" rel="noopener noreferrer">More Info →</a> -->
+          }
+        </div>
+      </div>
+      } @empty {
+      <p class="no-events-message">No upcoming events scheduled. Please check back soon!</p>
+      }
+    </div>
+  
+    <!-- Toggle Button for Past Events -->
+    @if(pastEvents().length > 0) {
+    <button class="toggle-events-button" (click)="togglePastEvents()">
+      {{ showPastEvents() ? 'Hide Past Events' : 'Show Past Events' }}
+    </button>
+    }
+  
+    <!-- Past Events (conditional) -->
+    @if(showPastEvents()) {
+    <h2 class="events-subtitle">Past</h2>
+    <div class="events-grid past-events">
+      @for (event of pastEvents(); track event.sys.id) {
+      <div class="event-card">
+        <div class="event-date">
+          <span class="month">{{ event.fields.dateTime | date:'MMM' }}</span>
+          <span class="day">{{ event.fields.dateTime | date:'d' }}</span>
+        </div>
+        <div class="event-info">
+          <h3>{{ event.fields.title }}</h3>
+          <p class="event-location">{{ event.fields.location }}</p>
+        </div>
+      </div>
+      }
+    </div>
+    }
+    }
+
+<!--OFFICERS SECTION-->
   @if (club.fields.officers) {
   <h1>Officers</h1>
   <div class="officers-container">
@@ -100,64 +158,6 @@
     }
   </div>
   }
-
-  <!-- EVENTS SECTION -->
-  @if (club.fields.events && club.fields.events.length > 0) {
-  <h1 class="events-title">Events</h1>
-
-  <!-- Upcoming Events -->
-  <h2 class="events-subtitle">Upcoming</h2>
-  <div class="events-grid">
-    @for (event of upcomingEvents(); track event.sys.id) {
-    <div class="event-card">
-      <div class="event-date">
-        <!-- Assuming dateTime is a full ISO string -->
-        <span class="month">{{ event.fields.dateTime | date:'MMM' }}</span>
-        <span class="day">{{ event.fields.dateTime | date:'d' }}</span>
-      </div>
-      <div class="event-info">
-        <h3>{{ event.fields.title }}</h3>
-        @if(event.fields.address) {
-        <p class="event-location">{{ event.fields.venue}}, {{ event.fields.address }}</p>
-        }
-        <p class="event-description" [innerHTML]=" event.fields.longDescription | mdToHtml"></p>
-        @if(event.fields.url) {
-        <a class="event-link" [href]="event.fields.url" target="_blank" rel="noopener noreferrer">More Info →</a>
-        }
-      </div>
-    </div>
-    } @empty {
-    <p class="no-events-message">No upcoming events scheduled. Please check back soon!</p>
-    }
-  </div>
-
-  <!-- Toggle Button for Past Events -->
-  @if(pastEvents().length > 0) {
-  <button class="toggle-events-button" (click)="togglePastEvents()">
-    {{ showPastEvents() ? 'Hide Past Events' : 'Show Past Events' }}
-  </button>
-  }
-
-  <!-- Past Events (conditional) -->
-  @if(showPastEvents()) {
-  <h2 class="events-subtitle">Past</h2>
-  <div class="events-grid past-events">
-    @for (event of pastEvents(); track event.sys.id) {
-    <div class="event-card">
-      <div class="event-date">
-        <span class="month">{{ event.fields.dateTime | date:'MMM' }}</span>
-        <span class="day">{{ event.fields.dateTime | date:'d' }}</span>
-      </div>
-      <div class="event-info">
-        <h3>{{ event.fields.title }}</h3>
-        <p class="event-location">{{ event.fields.location }}</p>
-      </div>
-    </div>
-    }
-  </div>
-  }
-  }
-
 
   <!-- NEW GALLERY SECTION -->
   @if (club.fields.clubPhotos && club.fields.clubPhotos.length > 0) {

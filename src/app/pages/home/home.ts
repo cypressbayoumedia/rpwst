@@ -1,13 +1,25 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { resource } from '@angular/core';
+import { Entry } from 'contentful';
+import { Contentful } from '../../core/contentful';
+import { Calendar } from '../../components/calendar/calendar';
+
+interface CalendarEntry {
+  title: string;
+  image: Entry<{ file: { url: string }, description: string }>;
+}
+
 @Component({
   selector: 'app-home',
-  imports: [RouterLink],
+  imports: [RouterLink, Calendar],
   templateUrl: './home.html',
   styleUrl: './home.css',
-  standalone: true
 })
 export class Home implements OnInit, OnDestroy {
+
+  private contentful = inject(Contentful);
+
   carouselImages: string[] = [
     'https://images.unsplash.com/photo-1561061715-ad0d1ade0b73?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8dXNhJTIwZmxhZ3N8ZW58MHx8MHx8fDA%3D',
     'https://images.unsplash.com/photo-1625878450319-6b1a59ef5e30?q=80&w=2370&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -53,5 +65,12 @@ export class Home implements OnInit, OnDestroy {
   prevImage(): void {
     this.currentImageIndex = (this.currentImageIndex - 1 + this.carouselImages.length) % this.carouselImages.length;
   }
+
+  
+
+  // Fetch a specific entry for the calendar, e.g., by its ID or a unique field
+  calendarResource = resource({
+    loader: (): Promise<Entry<CalendarEntry>[]> => this.contentful.get_calendar(),
+  });
 
 }
