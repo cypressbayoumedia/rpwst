@@ -5,143 +5,192 @@ article {
   padding: 1rem;
 }
 
-/* === Club Details Section === */
+/* === Club Details Section (Top Header) === */
 .club-details {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 2rem;
-  margin-bottom: 2rem;
+  flex-wrap: wrap-reverse;
+  /* Put image on top on mobile */
+  gap: 3rem;
+  margin-bottom: 3rem;
+  padding: 2rem 0;
 }
 
 .club-text {
   flex: 1;
-  min-width: 280px;
+  min-width: 320px;
 }
 
 .club-text h1 {
-  font-size: 2.5rem;
-  font-weight: 800;
-  line-height: 1.2;
-  margin-bottom: 1rem;
-  color: #000;
+  font-size: 3rem;
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  margin-bottom: 1.5rem;
+  color: #111;
 }
 
 .club-text p {
-  font-size: 1.1rem;
-  line-height: 1.6;
-  color: #333;
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: #444;
+  /* Softer text color */
   animation: fadeIn 0.8s ease-out forwards;
 }
 
 .club-logo-container {
-  flex: 1;
-  min-width: 200px;
+  flex: 0 1 350px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+/* Premium Logo Badge */
 .club-image {
   width: 100%;
-  max-width: 240px;
+  max-width: 300px;
   height: auto;
+  aspect-ratio: 1 / 1;
   border-radius: 50%;
+  /* Perfect Circle */
   object-fit: contain;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   background-color: white;
-  padding: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+  /* Soft expansive shadow */
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease;
   animation: scaleIn 0.8s ease-out forwards;
+}
+
+.club-image:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.12);
 }
 
 
 /* === Officer Grid === */
 .officers-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  padding-top: 2rem;
+  /* Give room for the overlapping images */
 }
 
-/* === Officer Card (NEW Glassmorphism Styles) === */
+/* === Ultra-Premium Officer Card === */
 .officer-card {
-  position: relative; /* Establishes a stacking context for the glass effect */
-
-  /* A rich, deep red gradient for the background */
-  background: linear-gradient(135deg, #d50000 0%, #9b0000 100%);
-
-  border-radius: 24px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-
-  /* Crucial for clipping the glass panel to the card's rounded corners */
-  overflow: hidden;
-
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  /* Very soft shadow */
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  padding: 0 1.5rem 2rem;
+  /* More padding, no top padding */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  margin-top: 60px;
+  /* Crucial: Pushes card down so image can overlap to top */
 }
 
 .officer-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
 }
 
-/* --- Image Container --- */
+/* --- Image Container (Overlapping Headshot) --- */
 .officer-image-container {
-  padding: 1rem; /* Creates a clean frame around the image */
+  width: 120px;
+  height: 120px;
+  margin-top: -60px;
+  /* Pulls image up strictly out of the card bounds */
+  margin-bottom: 1.5rem;
+  border-radius: 50%;
+  background: white;
+  /* Prevent transparent bleeding */
+  padding: 4px;
+  /* Space for the gradient border */
+  /* Elegant gradient subtle border ring */
+  background: linear-gradient(135deg, white, white) padding-box,
+    linear-gradient(135deg, #d50000, #ff6b6b) border-box;
+  border: 2px solid transparent;
+  box-shadow: 0 8px 24px rgba(213, 0, 0, 0.15);
+  /* Tint color to the shadow */
+  z-index: 2;
+  overflow: hidden;
+  /* Necessary if we want hover zooms on the image itself */
 }
 
 .officer-image-container img {
   width: 100%;
-  height: auto;
-  aspect-ratio: 1 / 1;
+  height: 100%;
   object-fit: cover;
-  border-radius: 16px; /* Rounded corners for the image */
-  border: 2px solid rgba(255, 255, 255, 0.5); /* A subtle border to lift the image */
+  border-radius: 50%;
+  transition: transform 0.4s ease;
 }
 
-/* --- The "Glass" Text Panel --- */
+.officer-card:hover .officer-image-container img {
+  transform: scale(1.08);
+  /* Gentle zoom inside the circle */
+}
+
+/* --- Content / Typography --- */
 .officer-info {
-  /* The core of the glassmorphism effect */
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px); /* For Safari support */
-
-  /* A subtle top border to define the edge of the glass */
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-
-  padding: 1.5rem;
-  margin-top: -1rem; /* A slight negative margin creates a nice overlap effect */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
-/* --- Typography for Readability on Glass --- */
-/* All text is now white to stand out against the red background visible through the glass */
-
-/* Officer Title */
+/* Officer Title (President, Vice President, etc) */
 .officer-info h3 {
-  font-size: 1.6rem;
+  font-size: 1.2rem;
   font-weight: 800;
-  line-height: 1.3;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #d50000;
+  /* Use brand red to make the title pop */
   margin: 0 0 0.5rem 0;
-  color: #ffffff;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); /* Shadow for readability */
 }
 
 /* Officer Name */
 .officer-info p {
-  font-size: 1.1rem;
-  margin: 0 0 1.25rem 0;
-  color: #ffffff;
-  opacity: 0.85; /* Makes the name slightly less prominent than the title */
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #222;
+  margin: 0 0 1.5rem 0;
 }
 
-/* Officer Email */
-.officer-info a {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #ffffff;
-  text-decoration: underline;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-  word-break: break-all;
+/* --- Contact Pill Button --- */
+.officer-email {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #555;
+  background-color: #f5f5f5;
+  border-radius: 40px;
+  /* Pill shape */
+  text-decoration: none;
+  transition: background-color 0.2s, color 0.2s, transform 0.2s;
+  max-width: 100%;
+  /* Prevent massive long emails from breaking layout */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.officer-email:hover {
+  background-color: #d50000;
+  color: white;
+  transform: translateY(-2px);
 }
 
 
@@ -149,26 +198,48 @@ article {
 .resource-container a,
 .back-link {
   display: inline-block;
-  margin: 0.5rem 1rem 0.5rem 0;
-  padding: 1em;
-  font-weight: 500;
+  margin: 0.5rem 0.75rem 0.5rem 0;
+  padding: 0.6rem 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 700;
   text-decoration: none;
-  border-radius: 0.5em;
-  color: #eaeaea;
+  border-radius: 40px;
+  /* Pill shape */
+  color: #d50000;
+  background-color: #ffffff;
+  border: 2px solid #d50000;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(213, 0, 0, 0.05);
+}
+
+.resource-container a:hover,
+.back-link:hover {
   background-color: #d50000;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(213, 0, 0, 0.2);
 }
 
 .show-more-button {
   display: inline-block;
-  margin: 0.5rem 1rem 0.5rem 0;
-  padding: 0.5em 1em;
-  font-weight: 500;
-  text-decoration: underline;
-  border: none;
-  background: none;
+  margin: 0.5rem 0.75rem 0.5rem 0;
+  padding: 0.6rem 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  background: rgba(213, 0, 0, 0.05);
+  /* Very faint red background for visibility */
+  border: 2px solid transparent;
+  /* matches height of outline buttons */
   color: #d50000;
   cursor: pointer;
-  font-size: 1rem;
+  border-radius: 40px;
+  transition: all 0.2s;
+}
+
+.show-more-button:hover {
+  background-color: rgba(213, 0, 0, 0.1);
+  color: #b30000;
 }
 
 /* === Gallery Section === */
@@ -191,34 +262,113 @@ article {
 .gallery-item img {
   width: 100%;
   display: block;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 16px;
+  /* Match event cards */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  /* Softer base shadow */
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease;
 }
 
 .gallery-item img:hover {
-  transform: scale(1.05);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
   cursor: pointer;
 }
+
 .gallery-item-title {
   margin: 0;
   font-size: 1rem;
   font-weight: 500;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.5); /* Make text more readable */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  /* Make text more readable */
 }
 
-/* === Navigation Link === */
-article > a[routerLink="/"] {
-  display: inline-block;
+/* === Lightbox Modal Styles === */
+.lightbox-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 1rem;
+  animation: fadeIn 0.3s ease-out;
+  backdrop-filter: blur(5px);
+}
+
+.lightbox-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 95vw;
+  max-height: 95vh;
+  animation: scaleIn 0.3s ease-out;
+}
+
+.lightbox-content img {
+  max-width: 100%;
+  max-height: calc(90vh - 60px);
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.lightbox-caption {
+  color: white;
   margin-top: 1rem;
-  color: #007bff;
-  text-decoration: none;
+  font-size: 1.25rem;
   font-weight: 500;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
-article > a[routerLink="/"]:hover {
-  text-decoration: underline;
+.lightbox-close {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0;
+  opacity: 0.7;
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 1001;
+}
+
+.lightbox-close:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* === Navigation Links === */
+.back-nav-container {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #eaeaea;
+  text-align: center;
+}
+
+.back-nav-container .back-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 50px;
+  color: #fff;
+  background-color: #333;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.back-nav-container .back-link:hover {
+  background-color: #000;
+  transform: translateY(-2px);
 }
 
 /* === Keyframe Animations === */
@@ -227,6 +377,7 @@ article > a[routerLink="/"]:hover {
     opacity: 0;
     transform: translateY(15px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -238,6 +389,7 @@ article > a[routerLink="/"]:hover {
     opacity: 0;
     transform: scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -281,11 +433,18 @@ article > a[routerLink="/"]:hover {
 }
 
 /* === Events Section === */
-.events-title {
-  margin: 3rem 0 1rem;
+article>h1 {
+  margin: 3rem 0 1.5rem;
   font-size: 2.2rem;
   font-weight: 800;
   color: #000;
+  border-bottom: 2px solid #eaeaea;
+  padding-bottom: 0.5rem;
+}
+
+.events-title {
+  margin-top: 4rem;
+  /* Specific override for the first dynamic title */
 }
 
 .events-subtitle {
@@ -304,44 +463,53 @@ article > a[routerLink="/"]:hover {
 }
 
 .event-card {
-  background-color: #f9f9f9;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  background-color: #ffffff;
+  /* Bright white card */
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  /* Soft premium shadow */
+  border: 1px solid rgba(0, 0, 0, 0.04);
   display: flex;
-  gap: 1rem;
-  padding: 1rem;
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .event-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  /* Sophisticated hover shadow */
 }
 
 .event-date {
   flex-shrink: 0;
-  width: 70px;
-  height: 70px;
-  background-color: #d50000;
+  width: 75px;
+  height: 75px;
+  background: linear-gradient(135deg, #d50000 0%, #aa0000 100%);
+  /* Elevate date box */
   color: white;
-  border-radius: 10px;
+  border-radius: 14px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
   font-weight: bold;
+  box-shadow: 0 4px 10px rgba(213, 0, 0, 0.15);
+  /* Soft red glow */
 }
 
 .event-date .month {
   font-size: 0.9rem;
   text-transform: uppercase;
-  line-height: 1;
+  line-height: 1.2;
+  letter-spacing: 0.5px;
+  opacity: 0.9;
 }
 
 .event-date .day {
-  font-size: 2rem;
-  line-height: 1.1;
+  font-size: 2.2rem;
+  line-height: 1;
   letter-spacing: -1px;
 }
 
@@ -351,82 +519,122 @@ article > a[routerLink="/"]:hover {
 }
 
 .event-info h3 {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin: 0 0 0.25rem;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #111;
+  margin: 0 0 0.4rem;
 }
 
 .event-info .event-location {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: #666;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
 }
 
 .event-info .event-description {
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: #444;
   flex-grow: 1;
+  line-height: 1.6;
 }
 
 .event-info .event-link {
-  margin-top: 0.75rem;
+  margin-top: 1rem;
   font-weight: 600;
   color: #d50000;
   text-decoration: none;
   align-self: flex-start;
+  transition: color 0.2s;
 }
+
 .event-info .event-link:hover {
-  text-decoration: underline;
+  color: #a00000;
 }
 
 .toggle-events-button {
   display: block;
-  margin: 1.5rem 0;
-  padding: 0.5em 1em;
-  font-weight: 500;
-  border: 1px solid #d50000;
-  background: none;
-  color: #d50000;
+  margin: 2rem 0;
+  padding: 0.6rem 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: 1.5px solid #eaeaea;
+  background: transparent;
+  color: #333;
   cursor: pointer;
-  border-radius: 0.5em;
-  transition: background-color 0.2s, color 0.2s;
+  border-radius: 40px;
+  transition: all 0.3s ease;
 }
 
 .toggle-events-button:hover {
-  background-color: #d50000;
-  color: white;
+  background-color: #f5f5f5;
+  border-color: #d50000;
+  color: #d50000;
 }
 
 .no-events-message {
-  padding: 1rem;
-  background-color: #f0f0f0;
-  border-radius: 8px;
-  color: #555;
+  padding: 2rem;
+  background-color: #ffffff;
+  border: 1px dashed #ccc;
+  border-radius: 12px;
+  color: #666;
+  text-align: center;
+  font-size: 1.1rem;
 }
 
 .past-events .event-card {
   opacity: 0.7;
 }
+
 .past-events .event-card:hover {
   opacity: 1;
 }
 
-.meeting-container{
-  background-color: #d500000c;
-  border-radius: 12px;
-  padding: 1em;
-  width: fit-content;
-  margin-bottom: 1em;
+.meeting-container {
+  background: linear-gradient(135deg, #d50000 0%, #aa0000 100%);
+  color: white;
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow: 0 10px 25px rgba(213, 0, 0, 0.2);
+}
+
+.meeting-date {
+  font-size: 1.5rem;
+  margin: 0 0 0.5rem 0;
+  font-weight: 800;
+}
+
+.meeting-location {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 0 0 1rem 0;
+  opacity: 0.9;
+}
+
+.meeting-description {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  opacity: 0.95;
 }
 
 .meeting-description a {
-  text-decoration: none;
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background-color: white;
   color: #d50000;
+  text-decoration: none;
+  font-weight: 700;
+  border-radius: 8px;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.meeting-location{
-  display: flex;
-  align-items: center;
-  gap: 0.1rem;
+.meeting-description a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }

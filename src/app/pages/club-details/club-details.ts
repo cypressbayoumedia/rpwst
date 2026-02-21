@@ -1,18 +1,41 @@
-import { Component, computed, inject, input, resource, signal } from '@angular/core';
+import { Component, computed, inject, input, resource, signal, effect } from '@angular/core';
+import { Title, Meta } from '@angular/platform-browser';
 import { Contentful } from '../../core/contentful';
-import { DatePipe, JsonPipe} from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { Entry } from 'contentful';
 import { MdToHtmlPipe } from '../../core/md-to-html-pipe';
 import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-club-details',
-  imports: [MdToHtmlPipe, RouterLink, DatePipe, JsonPipe],
+  imports: [MdToHtmlPipe, RouterLink, DatePipe],
   templateUrl: './club-details.html',
   styleUrl: './club-details.css'
 })
 export class ClubDetails {
 
   private contentfulService = inject(Contentful);
+  private titleService = inject(Title);
+  private metaService = inject(Meta);
+
+  constructor() {
+    effect(() => {
+      const club = this.clubResource.value();
+      if (club) {
+        const clubName = club.fields.title || 'Club Details';
+        const aboutText = club.fields.missionabout || '';
+        const description = aboutText.length > 150 ? aboutText.substring(0, 147) + '...' : aboutText || 'Learn more about this Republican club in St. Tammany Parish.';
+        const logoUrl = club.fields.image?.fields?.file?.url ? `https:${club.fields.image.fields.file.url}` : '';
+
+        this.titleService.setTitle(`${clubName} | St. Tammany Parish Republicans`);
+        this.metaService.updateTag({ name: 'description', content: description });
+        this.metaService.updateTag({ property: 'og:title', content: `${clubName} | St. Tammany Parish Republicans` });
+        this.metaService.updateTag({ property: 'og:description', content: description });
+        if (logoUrl) {
+          this.metaService.updateTag({ property: 'og:image', content: logoUrl });
+        }
+      }
+    });
+  }
 
   // 1. Get the 'slug' from the route parameters.
   // This requires `withComponentInputBinding()` in your routing config.
@@ -28,32 +51,58 @@ export class ClubDetails {
     }
   });
 
-// Computed signal to get only upcoming events and sort them
-upcomingEvents = computed(() => {
-  const events = this.clubResource.value()?.fields.events || [];
-  const now = new Date();
-  return events
-    .filter((event: any) => new Date(event.fields.dateTime) >= now)
-    .sort((a: any, b: any) => new Date(a.fields.dateTime).getTime() - new Date(b.fields.dateTime).getTime());
-});
+  // Computed signal to get only upcoming events and sort them
+  upcomingEvents = computed(() => {
+    const events = this.clubResource.value()?.fields.events || [];
+    const now = new Date();
+    return events
+      .filter((event: any) => new Date(event.fields.dateTime) >= now)
+      .sort((a: any, b: any) => new Date(a.fields.dateTime).getTime() - new Date(b.fields.dateTime).getTime());
+  });
 
-// Computed signal to get only past events and sort them
-pastEvents = computed(() => {
-  const events = this.clubResource.value()?.fields.events || [];
-  const now = new Date();
-  return events
-    .filter((event: any) => new Date(event.fields.dateTime) < now)
-    .sort((a: any, b: any) => new Date(b.fields.dateTime).getTime() - new Date(a.fields.dateTime).getTime());
-});
+  // Computed signal to get only past events and sort them
+  pastEvents = computed(() => {
+    const events = this.clubResource.value()?.fields.events || [];
+    const now = new Date();
+    return events
+      .filter((event: any) => new Date(event.fields.dateTime) < now)
+      .sort((a: any, b: any) => new Date(b.fields.dateTime).getTime() - new Date(a.fields.dateTime).getTime());
+  });
 
-// Function to toggle the signal's value
-togglePastEvents(): void {
-  this.showPastEvents.update(value => !value);
-}
+  // Computed signal to sort gallery photos by upload date (newest first)
+  sortedClubPhotos = computed(() => {
+    const photos = this.clubResource.value()?.fields.clubPhotos || [];
+    // Sort by sys.createdAt descending to show newest photos first
+    return [...photos].sort((a: any, b: any) => {
+      const dateA = a.sys?.createdAt || 0;
+      const dateB = b.sys?.createdAt || 0;
+      return new Date(dateB).getTime() - new Date(dateA).getTime();
+    });
+  });
 
-// Your existing 'showAllNewsletters' signal and its toggle function
+  // Function to toggle the signal's value
+  togglePastEvents(): void {
+    this.showPastEvents.update(value => !value);
+  }
 
-toggleShowAllNewsletters(): void {
-  this.showAllNewsletters.update(value => !value);
-}
+  // Your existing 'showAllNewsletters' signal and its toggle function
+
+  toggleShowAllNewsletters(): void {
+    this.showAllNewsletters.update(value => !value);
+  }
+
+  // Lightbox Modal signals and methods
+  selectedImage = signal<any | null>(null);
+
+  openLightbox(image: any): void {
+    this.selectedImage.set(image);
+    // Prevent body scrolling when modal is open
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeLightbox(): void {
+    this.selectedImage.set(null);
+    // Restore body scrolling
+    document.body.style.overflow = '';
+  }
 }

@@ -1,0 +1,113 @@
+.chart-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  font-family: inherit;
+  margin: 2rem 0;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); /* Premium shadow */
+}
+
+.donut-wrapper {
+  position: relative;
+  width: 280px;
+  height: 280px;
+}
+
+.donut {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg); /* Start at 12 o'clock */
+  filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.1));
+}
+
+.donut-segment {
+  transition: stroke-dasharray 1.5s cubic-bezier(0.1, 0.7, 0.1, 1);
+  stroke-linecap: round; /* Gives the premium rounded ends look */
+}
+
+.donut-centered-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.total-number {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1a202c; /* Modern dark gray */
+  line-height: 1;
+}
+
+.total-label {
+  font-size: 0.9rem;
+  color: #718096; /* Subtle subtitle gray */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 0.4rem;
+  font-weight: 600;
+}
+
+.legend {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-width: 220px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.color-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-top: 4px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15); /* Pop dot off background */
+}
+
+.legend-text-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #2d3748;
+}
+
+.count {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #111;
+  margin-top: 0.3rem;
+}
+
+.percentage {
+  color: #a0aec0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .chart-container {
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem;
+  }
+}

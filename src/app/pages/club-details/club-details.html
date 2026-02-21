@@ -81,62 +81,62 @@
 
   <!-- EVENTS SECTION -->
   @if (club.fields.events && club.fields.events.length > 0) {
-    <h1 class="events-title">Events</h1>
-  
-    <!-- Upcoming Events -->
-    <h2 class="events-subtitle">Upcoming</h2>
-    <div class="events-grid">
-      @for (event of upcomingEvents(); track event.sys.id) {
-      <div class="event-card">
-        <div class="event-date">
-          <!-- Assuming dateTime is a full ISO string -->
-          <span class="month">{{ event.fields.dateTime | date:'MMM' }}</span>
-          <span class="day">{{ event.fields.dateTime | date:'d' }}</span>
-        </div>
-        <div class="event-info">
-          <h3>{{ event.fields.title }}</h3>
-          @if(event.fields.address) {
-          <p class="event-location">{{ event.fields.venue}}, {{ event.fields.address }}</p>
-          }
-          <p class="event-description" [innerHTML]=" event.fields.longDescription | mdToHtml"></p>
-          @if(event.fields.url) {
-          <!-- <a class="event-link" [href]="event.fields.url" target="_blank" rel="noopener noreferrer">More Info →</a> -->
-          }
-        </div>
-      </div>
-      } @empty {
-      <p class="no-events-message">No upcoming events scheduled. Please check back soon!</p>
-      }
-    </div>
-  
-    <!-- Toggle Button for Past Events -->
-    @if(pastEvents().length > 0) {
-    <button class="toggle-events-button" (click)="togglePastEvents()">
-      {{ showPastEvents() ? 'Hide Past Events' : 'Show Past Events' }}
-    </button>
-    }
-  
-    <!-- Past Events (conditional) -->
-    @if(showPastEvents()) {
-    <h2 class="events-subtitle">Past</h2>
-    <div class="events-grid past-events">
-      @for (event of pastEvents(); track event.sys.id) {
-      <div class="event-card">
-        <div class="event-date">
-          <span class="month">{{ event.fields.dateTime | date:'MMM' }}</span>
-          <span class="day">{{ event.fields.dateTime | date:'d' }}</span>
-        </div>
-        <div class="event-info">
-          <h3>{{ event.fields.title }}</h3>
-          <p class="event-location">{{ event.fields.location }}</p>
-        </div>
-      </div>
-      }
-    </div>
-    }
-    }
+  <h1 class="events-title">Events</h1>
 
-<!--OFFICERS SECTION-->
+  <!-- Upcoming Events -->
+  <h2 class="events-subtitle">Upcoming</h2>
+  <div class="events-grid">
+    @for (event of upcomingEvents(); track event.sys.id) {
+    <div class="event-card">
+      <div class="event-date">
+        <!-- Assuming dateTime is a full ISO string -->
+        <span class="month">{{ event.fields.dateTime | date:'MMM' }}</span>
+        <span class="day">{{ event.fields.dateTime | date:'d' }}</span>
+      </div>
+      <div class="event-info">
+        <h3>{{ event.fields.title }}</h3>
+        @if(event.fields.address) {
+        <p class="event-location">{{ event.fields.venue}}, {{ event.fields.address }}</p>
+        }
+        <p class="event-description" [innerHTML]=" event.fields.longDescription | mdToHtml"></p>
+        @if(event.fields.url) {
+        <!-- <a class="event-link" [href]="event.fields.url" target="_blank" rel="noopener noreferrer">More Info →</a> -->
+        }
+      </div>
+    </div>
+    } @empty {
+    <p class="no-events-message">No upcoming events scheduled. Please check back soon!</p>
+    }
+  </div>
+
+  <!-- Toggle Button for Past Events -->
+  @if(pastEvents().length > 0) {
+  <button class="toggle-events-button" (click)="togglePastEvents()">
+    {{ showPastEvents() ? 'Hide Past Events' : 'Show Past Events' }}
+  </button>
+  }
+
+  <!-- Past Events (conditional) -->
+  @if(showPastEvents()) {
+  <h2 class="events-subtitle">Past</h2>
+  <div class="events-grid past-events">
+    @for (event of pastEvents(); track event.sys.id) {
+    <div class="event-card">
+      <div class="event-date">
+        <span class="month">{{ event.fields.dateTime | date:'MMM' }}</span>
+        <span class="day">{{ event.fields.dateTime | date:'d' }}</span>
+      </div>
+      <div class="event-info">
+        <h3>{{ event.fields.title }}</h3>
+        <p class="event-location">{{ event.fields.location }}</p>
+      </div>
+    </div>
+    }
+  </div>
+  }
+  }
+
+  <!--OFFICERS SECTION-->
   @if (club.fields.officers) {
   <h1>Officers</h1>
   <div class="officers-container">
@@ -150,9 +150,9 @@
         <h3>{{officer.fields.office}}</h3>
         <p>{{officer.fields.name}}</p>
         <!-- The mailto: link makes the email clickable -->
-         @if (officer.fields.email) {
-          <a [href]="'mailto:' + officer.fields.email" target="_blank">{{officer.fields.email}}</a>
-         }
+        @if (officer.fields.email) {
+        <a class="officer-email" [href]="'mailto:' + officer.fields.email" target="_blank">{{officer.fields.email}}</a>
+        }
       </div>
     </div>
     }
@@ -163,9 +163,11 @@
   @if (club.fields.clubPhotos && club.fields.clubPhotos.length > 0) {
   <h1 class="gallery-title">Gallery</h1>
   <div class="gallery-container">
-    @for(galleryImage of club.fields.clubPhotos; track galleryImage.sys.id) {
-    <div class="gallery-item">
-      <img [src]="galleryImage.fields.file.url" [alt]="galleryImage.fields.title || 'Gallery image'">
+    @for(galleryImage of sortedClubPhotos(); track galleryImage.sys.id) {
+    <!-- Added click handler and keyboard accessibility -->
+    <div class="gallery-item" (click)="openLightbox(galleryImage)" (keydown.enter)="openLightbox(galleryImage)"
+      tabindex="0" role="button" aria-label="View larger image">
+      <img [src]="galleryImage.fields.file.url" [alt]="galleryImage.fields.title || 'Gallery image'" loading="lazy">
       @if(galleryImage.fields.title) {
       <div class="gallery-item-info">
         <p class="gallery-item-title">{{ galleryImage.fields.title }}</p>
@@ -176,10 +178,26 @@
   </div>
   }
 
-  <!-- Assuming you have an optional mainImage asset linked -->
+  <!-- LIGHTBOX MODAL -->
+  @if(selectedImage()) {
+  <div class="lightbox-overlay" (click)="closeLightbox()">
+    <div class="lightbox-content" (click)="$event.stopPropagation()">
+      <button class="lightbox-close" (click)="closeLightbox()" aria-label="Close image gallery">
+        <svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 -960 960 960" width="32px" fill="currentColor">
+          <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+        </svg>
+      </button>
+      <img [src]="selectedImage().fields.file.url" [alt]="selectedImage().fields.title || 'Enlarged gallery view'">
+      @if(selectedImage().fields.title) {
+      <p class="lightbox-caption">{{ selectedImage().fields.title }}</p>
+      }
+    </div>
+  </div>
+  }
 
-
-  <a routerLink="/">Back to home</a>
+  <div class="back-nav-container">
+    <a routerLink="/" class="back-link">← Back to Home</a>
+  </div>
 </article>
 } @else {
 <!-- This handles the case where the slug was valid but no club was found -->

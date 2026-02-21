@@ -1,5 +1,6 @@
 header {
-  background-color: #f5f5f5; /* Light grey background for the header */
+  background-color: #f5f5f5;
+  /* Light grey background for the header */
   padding: 1rem;
   text-align: center;
   font-size: 1.5rem;
@@ -10,67 +11,75 @@ header {
   width: 100%;
   position: relative;
   overflow: hidden;
-}
-
-.carousel-container:hover .prev-button,
-.carousel-container:hover .next-button {
-  opacity: 1;
-}
-
-@media (max-width: 768px) {
- .prev-button,
- .next-button {
-    display: none;
-  }
+  height: 60vh;
+  min-height: 400px;
+  background-color: #ddd;
 }
 
 .carousel-images {
-  position: relative;
-  height: 500px; /* Set a fixed height for the carousel */
+  display: flex;
+  height: 100%;
+  transition: transform 0.5s ease-in-out;
 }
 
 .carousel-images img {
- position: absolute;
- top: 0;
   width: 100%;
-  width: 100%;
-  object-fit: cover; /* Crop images to fit */
-  display: block;
+  height: 100%;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 
-.prev-button, .next-button {
+.prev-button,
+.next-button {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: rgba(255, 255, 255, 0.1); /* More transparent white for glassmorphism */
-  backdrop-filter: blur(10px); /* Blur effect for glassmorphism */
-  border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   color: white;
-  border: none;
-  padding: 15px; /* Increased padding for larger buttons */
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  z-index: 1;
-  opacity: 0; /* Hide the buttons by default */
-  transition: opacity 0.3s ease-in-out; /* Smooth transition for showing/hiding */
-  border-radius: 50%; /* Make buttons circular */
+  z-index: 2;
+  opacity: 1;
+  transition: all 0.3s ease;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.prev-button:hover,
+.next-button:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+  transform: translateY(-50%) scale(1.05);
+  /* Slight grow effect */
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.prev-button .carousel-icon {
+  margin-right: 2px;
+  /* Visual compensation for chevron shape */
+}
+
+.next-button .carousel-icon {
+  margin-left: 2px;
 }
 
 .prev-button {
-  left: 10px;
+  left: 20px;
 }
 
 .next-button {
-  right: 10px;
-}
-
-.prev-button::before {
-   /* Left arrow character */
-  font-size: 2em; /* Adjust size of the arrow */
-}
-
-.next-button::before {
-   /*content: '\\203A'; Right arrow character */
-  font-size: 2em; /* Adjust size of the arrow */
+  right: 20px;
 }
 
 .carousel-dots {
@@ -82,58 +91,76 @@ header {
 }
 
 .dot {
-  width: 10px;
-  height: 10px;
-  background-color: rgba(255, 255, 255, 0.5);
+  width: 16px;
+  /* Larger dots */
+  height: 16px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  /* Enhance contrast against light backgrounds */
   border-radius: 50%;
-  margin: 0 5px;
+  margin: 0 8px;
   cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.dot:hover,
+.dot.active {
+  background-color: white;
+  transform: scale(1.2);
+  border-color: white;
 }
 
 .description-content {
   display: flex;
-  gap: 3rem; /* Add space between the text and the graph placeholder */
+  gap: 3rem;
+  /* Add space between the text and the graph placeholder */
 }
 
-.description-content p{
+.description-content p {
   line-height: 1.5;
   font-size: 1.2em;
- }
+}
 
 /* Media query for smaller screens */
 @media (max-width: 768px) {
   .description-content {
-    flex-direction: column; /* Stack items vertically */
+    flex-direction: column;
+    /* Stack items vertically */
   }
+
   .logo-container {
     display: grid;
-    grid-template-columns: repeat(1, 1fr); /* 3 columns */
-    gap: 1rem; /* Add some space between logos */
-     /* Center items vertically */
+    grid-template-columns: repeat(1, 1fr);
+    /* 3 columns */
+    gap: 1rem;
+    /* Add some space between logos */
+    /* Center items vertically */
     text-align: center;
   }
-  
+
   .text-section {
     margin-bottom: 1rem;
   }
-  .carousel-images {
-    position: relative;
-    height: 200px; /* Set a fixed height for the carousel */
+
+  .carousel-container {
+    height: 40vh;
+    min-height: 250px;
   }
 }
 
 @media (min-width: 1200px) {
-  .description-content p{
+  .description-content p {
     width: 50%;
-   }
-   .logo-container {
+  }
+
+  .logo-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 columns */
-    gap: 1rem; /* Add some space between logos */
-   
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    /* Add more space between cards */
     text-align: center;
   }
-  
 }
 
 .description-content img {
@@ -141,40 +168,69 @@ header {
 }
 
 .text-section {
-  flex: 1 1 500px; /* Allow the text section to grow and shrink, with a base width of 500px */
-  max-width: 700px; /* Limit the maximum width of the text section */
+  flex: 1 1 500px;
+  max-width: 700px;
 }
-
-
 
 .clubs-section h2 {
   text-align: center;
-  margin-top: 2rem;
-  margin-bottom: 1.5rem;
+  margin-top: 3rem;
+  /* Added more space */
+  margin-bottom: 2rem;
+  font-size: 2.2rem;
 }
 
 .club-logos {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsive grid with minimum item width of 150px */
-  gap: 2rem; /* Space between the logos */
-  padding: 0 2rem 2rem; /* Padding around the grid */
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 2rem;
+  padding: 0 2rem 2rem;
 }
 
+.logo-container .club-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  /* Card shadow */
+  padding: 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #eee;
+  cursor: pointer;
+}
+
+.logo-container .club-card:active,
+.logo-container .club-card:hover {
+  transform: translateY(-4px);
+  /* Interactive lift */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  /* Lift shadow */
+}
 
 .logo-container img {
-  border-radius: 50%; /* Make images circular */
-  width: 200px; /* Adjust the size as needed */
-  height: 200px; /* Adjust the size as needed */
-  object-fit: cover; /* Ensure the image covers the circular area */
+  border-radius: 50%;
+  /* Make images circular */
+  width: 160px;
+  /* Adjust the size as needed */
+  height: 160px;
+  /* Adjust the size as needed */
+  object-fit: contain;
+  /* Ensure the image covers the circular area */
+  margin-bottom: 1rem;
 }
 
 .logo-container a {
-  text-decoration: none; /* Remove underline */
-  color: #d50000; /* Set text color */
-  font-weight: 700; /* Set font weight */
+  text-decoration: none;
+  /* Remove underline */
+  color: #d50000;
+  /* Set text color */
+  font-weight: 700;
+  /* Set font weight */
 }
 
 
-.clubs-description-section{
+.clubs-description-section {
   padding: 1em
 }

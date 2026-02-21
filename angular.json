@@ -26,6 +26,15 @@
             ],
             "styles": [
               "src/styles.css"
+            ],
+            "allowedCommonJsDependencies": [
+              "axios",
+              "fast-copy",
+              "qs",
+              "lodash.isstring",
+              "p-throttle",
+              "lodash.isplainobject",
+              "json-stringify-safe"
             ]
           },
           "configurations": {
@@ -38,8 +47,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "8kB",
+                  "maximumError": "16kB"
                 }
               ],
               "outputHashing": "all"

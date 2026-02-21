@@ -1,27 +1,38 @@
 <section class="banner-section">
- <div class="carousel-container">
-  <div class="carousel-images" [style.transform]="'translateX(-' + currentImageIndex * 100 + '%)'">
- @for (image of carouselImages; track $index) {
-  <img [src]="image" alt="American Flag Banner" [style.left]=" $index * 100 + '%'" [style.opacity]="currentImageIndex === $index ? 1 : 0" [style.zIndex]="currentImageIndex === $index ? 1 : 0">
- }
+  <div class="carousel-container">
+    <div class="carousel-images" [style.transform]="'translateX(' + (-currentImageIndex * 100) + '%)'">
+      @for (image of carouselImages; track $index) {
+      <img [src]="image" alt="American Flag Banner">
+      }
+    </div>
+    <button class="prev-button" (click)="prevImage()" aria-label="Previous slide">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+        stroke-linecap="round" stroke-linejoin="round" class="carousel-icon">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+    <button class="next-button" (click)="nextImage()" aria-label="Next slide">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+        stroke-linecap="round" stroke-linejoin="round" class="carousel-icon">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
+    <div class="carousel-dots">
+      @for (image of carouselImages; track $index) {
+      <span class="dot" [class.active]="currentImageIndex === $index" (click)="changeImage($index)"></span>
+      }
+    </div>
   </div>
-  <button class="prev-button" (click)="prevImage()">&lt;</button>
-  <button class="next-button" (click)="nextImage()">&gt;</button>
-  <div class="carousel-dots">
-    @for (image of carouselImages; track $index) {
- <span class="dot" [class.active]="currentImageIndex === $index" (click)="changeImage($index)"></span>
- }
-  </div>
- </div>
 </section>
 <section class="clubs-description-section">
   <div class="description-content">
-    <p>St. Tammany Parish has five active Republican Clubs, four women's groups and one men's group. These groups meet on different days of the week and at different times. All meetings feature a speaker who may be a local and state elected official or an expert in their field speaking on topical subjects. As of January 20, 2026 there are 193,862 registered voters in St. Tammany Parish.  For a detailed breakdown of voters, <a href="https://www.stprov.org/registration-stats.shtml">click here</a></p>
-    <div class="graph-placeholder">
-      <!-- Placeholder for graph -->
-      <img src="/voter_chart.svg" alt="Registered Voters in St. Tammany" srcset="">
-      <p></p>
-     <div align="center"><strong>Registered Voters in St. Tammany</strong></div>
+    <p>St. Tammany Parish has five active Republican Clubs, four women's groups and one men's group. These groups meet
+      on different days of the week and at different times. All meetings feature a speaker who may be a local and state
+      elected official or an expert in their field speaking on topical subjects. As of January 20, 2026 there are
+      193,862 registered voters in St. Tammany Parish. For a detailed breakdown of voters, <a target="_blank"
+        href="https://www.stprov.org/registration-stats.shtml">click here</a></p>
+    <div class="animated-chart-wrapper">
+      <app-voter-chart></app-voter-chart>
     </div>
 
   </div>
@@ -31,43 +42,40 @@
 
 @switch (calendarResource.status()) {
 
-  @case ('loading') {
-    <p>Loading calendars...</p>
-  }
+@case ('loading') {
+<p>Loading calendars...</p>
+}
 
-  @case ('resolved') {
-    <!-- The resource has finished loading. Now we get the array of calendars. -->
-    @let calendars = calendarResource.value();
+@case ('resolved') {
+<!-- The resource has finished loading. Now we get the array of calendars. -->
+@let calendars = calendarResource.value();
 
-    <!-- Check if the array exists and has items in it. -->
-    @if (calendars && calendars.length > 0) {
-      
-      <!-- *** THE @for LOOP IS HERE *** -->
-      <!-- We loop over each 'calendar' in the 'calendars' array. -->
-      <!-- 'track calendar.sys.id' is crucial for performance. -->
-      @for (calendar of calendars; track calendar.sys.id) {
-        
-        <!--
+<!-- Check if the array exists and has items in it. -->
+@if (calendars && calendars.length > 0) {
+
+<!-- *** THE @for LOOP IS HERE *** -->
+<!-- We loop over each 'calendar' in the 'calendars' array. -->
+<!-- 'track calendar.sys.id' is crucial for performance. -->
+@for (calendar of calendars; track calendar.sys.id) {
+
+<!--
           For each calendar in the loop, we create a new instance
           of our app-calendar component and pass in its specific data.
         -->
-        <app-calendar 
-          [title]="calendar.fields.title"
-          [imageUrl]="'https:' + calendar.fields.image.fields.file.url"
-          [imageAlt]="calendar.fields.image.fields.description || 'Calendar'"
-          [downloadUrl]="'https:' + calendar.fields.image.fields.file.url"
-        />
-      }
+<app-calendar [title]="calendar.fields.title" [imageUrl]="'https:' + calendar.fields.image.fields.file.url"
+  [imageAlt]="calendar.fields.image.fields.description || 'Calendar'"
+  [downloadUrl]="'https:' + calendar.fields.image.fields.file.url" />
+}
 
-    } @else {
-      <!-- This handles the case where no calendars were found. -->
-      <p>No calendars are available at this time.</p>
-    }
-  }
+} @else {
+<!-- This handles the case where no calendars were found. -->
+<p>No calendars are available at this time.</p>
+}
+}
 
-  @case ('error') {
-    <p>Sorry, we couldn't load the calendars.</p>
-  }
+@case ('error') {
+<p>Sorry, we couldn't load the calendars.</p>
+}
 }
 
 <!-- ... other homepage content ... -->
@@ -76,24 +84,21 @@
   <h2>Clubs</h2>
   <div class="logo-container">
     @for (club of clubs; track club.id) {
-     @if(club.slug != null){ 
-      <a [routerLink]="['/clubs', club.slug]">
-        <img [src]="club.logo" [alt]="club.name" [title]="club.name"/>
-        <br>
-  <span>{{club.name}}</span>  
-  </a>
-     }@else {
-      <span>
-        <img [src]="club.logo" [alt]="club.name" [title]="club.name"/>
-        <br>
-      <span>{{club.name}}</span>  
-      </span>
-      
-     }
+    @if(club.slug != null){
+    <a [routerLink]="['/clubs', club.slug]" class="club-card">
+      <img [src]="club.logo" [alt]="club.name" [title]="club.name" />
+      <span>{{club.name}}</span>
+    </a>
+    }@else {
+    <span class="club-card">
+      <img [src]="club.logo" [alt]="club.name" [title]="club.name" />
+      <span>{{club.name}}</span>
+    </span>
+    }
 
 
     }
-    
+
 
   </div>
 </section>

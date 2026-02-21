@@ -1,12 +1,10 @@
 import { Component, computed, inject, resource, Signal } from '@angular/core';
 import { Contentful } from '../../core/contentful';
 import { Entry } from 'contentful';
-import { DatePipe } from '@angular/common';
-import { MdToHtmlPipe } from '../../core/md-to-html-pipe';
 
 @Component({
   selector: 'app-events',
-  imports: [DatePipe, MdToHtmlPipe],
+  imports: [],
   templateUrl: './events.html',
   styleUrl: './events.css'
 })
