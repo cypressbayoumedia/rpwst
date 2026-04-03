@@ -79,6 +79,36 @@
   </div>
 
 
+  <!-- SCHOLARSHIPS SECTION -->
+  @if (club.fields.scholarships && club.fields.scholarships.length > 0) {
+  <h1 class="events-title">Scholarships</h1>
+  
+  <div class="events-grid">
+    @for (scholarship of club.fields.scholarships; track scholarship.sys.id) {
+    <div class="event-card scholarship-card">
+      <div class="event-info" style="width: 100%;">
+        <h3 style="margin-bottom: 5px;">{{ scholarship.fields.title }}</h3>
+        
+        @if (scholarship.fields.deadline) {
+        <p class="deadline-text" style="color: #666; font-style: italic; margin-bottom: 15px;">
+          <strong>Deadline:</strong> {{ scholarship.fields.deadline | date:'longDate' }}
+        </p>
+        }
+        
+        <div class="scholarship-actions" style="margin-top: auto; display: flex; gap: 10px; flex-wrap: wrap;">
+          @if (scholarship.fields.applicationDocument) {
+          <a class="event-link" [href]="'https:'+scholarship.fields.applicationDocument.fields.file.url" target="_blank" rel="noopener noreferrer" style="background-color: var(--primary-color, #0D1E61); color: white; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-weight: bold; background: #0D1E61;">Download App</a>
+          }
+          @if (scholarship.fields.rubricDocument) {
+          <a class="event-link" [href]="'https:'+scholarship.fields.rubricDocument.fields.file.url" target="_blank" rel="noopener noreferrer" style="background-color: var(--secondary-color, #9A0000); color: white; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-weight: bold; background: #9A0000;">View Rubric</a>
+          }
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+  }
+
   <!-- EVENTS SECTION -->
   @if (club.fields.events && club.fields.events.length > 0) {
   <h1 class="events-title">Events</h1>
