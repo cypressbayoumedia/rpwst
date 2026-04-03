@@ -81,7 +81,7 @@
 
   <!-- SCHOLARSHIPS SECTION -->
   @if (club.fields.scholarships && club.fields.scholarships.length > 0) {
-  <h1 class="events-title">Scholarships</h1>
+  <h1 id="scholarships" class="events-title" style="scroll-margin-top: 80px;">Scholarships</h1>
   
   <div class="events-grid">
     @for (scholarship of club.fields.scholarships; track scholarship.sys.id) {

@@ -1,10 +1,10 @@
 import { Component, computed, inject, input, resource, signal, effect } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 import { Contentful } from '../../core/contentful';
-import { DatePipe } from '@angular/common';
+import { DatePipe, ViewportScroller } from '@angular/common';
 import { Entry } from 'contentful';
 import { MdToHtmlPipe } from '../../core/md-to-html-pipe';
-import { RouterLink } from '@angular/router';
+import { RouterLink, ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-club-details',
   imports: [MdToHtmlPipe, RouterLink, DatePipe],
@@ -16,6 +16,8 @@ export class ClubDetails {
   private contentfulService = inject(Contentful);
   private titleService = inject(Title);
   private metaService = inject(Meta);
+  private viewportScroller = inject(ViewportScroller);
+  private route = inject(ActivatedRoute);
 
   constructor() {
     effect(() => {
@@ -32,6 +34,22 @@ export class ClubDetails {
         this.metaService.updateTag({ property: 'og:description', content: description });
         if (logoUrl) {
           this.metaService.updateTag({ property: 'og:image', content: logoUrl });
+        }
+
+        // Handle scrolling to fragment after data renders
+        const fragment = this.route.snapshot.fragment;
+        if (fragment) {
+          // Because Angular's change detection happens asynchronously after the resource resolves,
+          // the DOM element won't exist immediately. We poll for it until it appears.
+          const checkExist = setInterval(() => {
+            if (document.getElementById(fragment)) {
+              this.viewportScroller.scrollToAnchor(fragment);
+              clearInterval(checkExist);
+            }
+          }, 100);
+
+          // Give up after 3 seconds so we don't leak memory if the section doesn't exist
+          setTimeout(() => clearInterval(checkExist), 3000);
         }
       }
     });
