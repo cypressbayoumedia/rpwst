@@ -20,13 +20,14 @@
 
     <div class="legend">
         @for (segment of voterData; track segment.label) {
-        <div class="legend-item" [style.transform]="hasAnimated ? 'translateX(0)' : 'translateX(20px)'"
-            [style.opacity]="hasAnimated ? 1 : 0" [style.transition-delay]="($index * 150) + 'ms'">
-            <span class="color-dot" [style.background-color]="segment.color"></span>
-            <div class="legend-text-container">
-                <div class="label">{{ segment.label }}</div>
-                <div class="count">{{ segment.count | number }} <span class="percentage">({{ segment.percentage
-                        }}%)</span></div>
+        <div class="legend-item" [class.is-visible]="hasAnimated" [style.transition-delay]="($index * 150) + 'ms'">
+            <div class="legend-left">
+                <span class="color-dot" [style.background-color]="segment.color"></span>
+                <span class="label">{{ segment.label }}</span>
+            </div>
+            <div class="legend-right">
+                <span class="count">{{ segment.count | number }}</span>
+                <span class="percentage">{{ segment.percentage }}%</span>
             </div>
         </div>
         }

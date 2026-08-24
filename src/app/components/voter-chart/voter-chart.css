@@ -1,15 +1,13 @@
 .chart-container {
   display: flex;
-  flex-wrap: wrap;
-  gap: 3rem;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 2rem;
   align-items: center;
   justify-content: center;
-  padding: 2rem 1rem;
+  padding: 1rem;
   font-family: inherit;
-  margin: 2rem 0;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); /* Premium shadow */
+  margin: 1rem 0;
 }
 
 .donut-wrapper {
@@ -59,49 +57,73 @@
 .legend {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  min-width: 220px;
+  gap: 1rem;
+  min-width: 260px;
 }
 
 .legend-item {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.legend-item.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.legend-item.is-visible:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.legend-left {
+  display: flex;
+  align-items: center;
   gap: 1rem;
-  transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
 .color-dot {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  display: inline-block;
-  margin-top: 4px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   flex-shrink: 0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.15); /* Pop dot off background */
-}
-
-.legend-text-container {
-  display: flex;
-  flex-direction: column;
 }
 
 .label {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 700;
-  color: #2d3748;
+  color: #333;
+}
+
+.legend-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 .count {
   font-size: 1.25rem;
-  font-weight: 800;
+  font-weight: 900;
   color: #111;
-  margin-top: 0.3rem;
+  line-height: 1.1;
 }
 
 .percentage {
-  color: #a0aec0;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #888;
+  margin-top: 0.2rem;
 }
 
 @media (max-width: 768px) {

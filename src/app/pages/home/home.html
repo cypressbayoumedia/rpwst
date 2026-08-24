@@ -2,8 +2,16 @@
   <div class="carousel-container">
     <div class="carousel-images" [style.transform]="'translateX(' + (-currentImageIndex * 100) + '%)'">
       @for (image of carouselImages; track $index) {
-      <img [src]="image" alt="American Flag Banner">
+      <div class="carousel-slide">
+        <img [src]="image" alt="St. Tammany Republicans">
+        <div class="carousel-overlay"></div>
+      </div>
       }
+    </div>
+
+    <div class="hero-content">
+      <h1 class="hero-title">St. Tammany Parish<br><span class="highlight">Republicans</span></h1>
+      <!-- <p class="hero-subtitle">United for Faith, Family, and Freedom</p> -->
     </div>
     <button class="prev-button" (click)="prevImage()" aria-label="Previous slide">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
@@ -52,21 +60,16 @@
 
 <!-- Check if the array exists and has items in it. -->
 @if (calendars && calendars.length > 0) {
-
-<!-- *** THE @for LOOP IS HERE *** -->
-<!-- We loop over each 'calendar' in the 'calendars' array. -->
-<!-- 'track calendar.sys.id' is crucial for performance. -->
-@for (calendar of calendars; track calendar.sys.id) {
-
-<!--
-          For each calendar in the loop, we create a new instance
-          of our app-calendar component and pass in its specific data.
-        -->
-<app-calendar [title]="calendar.fields.title" [imageUrl]="'https:' + calendar.fields.image.fields.file.url"
-  [imageAlt]="calendar.fields.image.fields.description || 'Calendar'"
-  [downloadUrl]="'https:' + calendar.fields.image.fields.file.url" />
-}
-
+<section class="calendars-section">
+  <h2>Event Calendars</h2>
+  <div class="calendars-grid">
+    @for (calendar of calendars; track calendar.sys.id) {
+    <app-calendar [title]="calendar.fields.title" [imageUrl]="'https:' + calendar.fields.image.fields.file.url"
+      [imageAlt]="calendar.fields.image.fields.description || 'Calendar'"
+      [downloadUrl]="'https:' + calendar.fields.image.fields.file.url" />
+    }
+  </div>
+</section>
 } @else {
 <!-- This handles the case where no calendars were found. -->
 <p>No calendars are available at this time.</p>

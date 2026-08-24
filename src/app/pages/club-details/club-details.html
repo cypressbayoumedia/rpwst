@@ -17,20 +17,23 @@
 @if (resolvedClub && resolvedClub.fields) {
 @let club = resolvedClub; <!-- Assign to 'club' only if valid -->
 <article>
+  <!-- CLUB DETAILS -->
   <div class="club-details">
-    <div class="club-text">
+    <div class="club-header-row">
       <h1>{{ club.fields.title }}</h1>
-
-      <!-- Assuming you have a description field -->
-      @if (club.fields['missionabout']) {
-      <p [innerHTML]="club.fields['missionabout'] | mdToHtml"></p>
-      }
-    </div>
-    <div>
+      
       @if (club.fields['image']; as image) {
-      <img class="club-image" [src]="image.fields.file.url" [alt]="image.fields.file.fileName || club.fields['title']">
+      <div class="club-logo-container">
+        <img [src]="'https:'+image.fields.file.url" [alt]="club.fields.title" class="club-image" loading="eager">
+      </div>
       }
     </div>
+
+    @if (club.fields['missionabout']) {
+    <div class="club-mission">
+      <p [innerHTML]="club.fields['missionabout'] | mdToHtml"></p>
+    </div>
+    }
   </div>
 
   <!-- Meeting Section -->
@@ -63,16 +66,16 @@
     <a [href]="resource.fields.url" target="_blank" rel="noopener noreferrer">{{resource.fields.text}}</a>
     }
     }
-    @if(club.fields.newsletter){
-    @for (newsletter of club.fields.newsletter; track newsletter.sys.id) {
+    @if(sortedNewsletters().length > 0){
+    @for (newsletter of sortedNewsletters(); track newsletter.sys.id) {
     @if ($index < 1 || showAllNewsletters()) { <a [href]="'https:'+newsletter.fields.file.url" target="_blank"
       rel="noopener noreferrer">{{newsletter.fields.title}}</a>
       }
       }
-      @if (club.fields.newsletter.length > 1 && !showAllNewsletters()) {
+      @if (sortedNewsletters().length > 1 && !showAllNewsletters()) {
       <button class="show-more-button" (click)="toggleShowAllNewsletters()">Show More Newsletters</button>
       }
-      @if (club.fields.newsletter.length > 1 && showAllNewsletters()) {
+      @if (sortedNewsletters().length > 1 && showAllNewsletters()) {
       <button class="show-more-button" (click)="toggleShowAllNewsletters()">Show Less</button>
       }
       }
@@ -129,6 +132,11 @@
         <p class="event-location">{{ event.fields.venue}}, {{ event.fields.address }}</p>
         }
         <p class="event-description" [innerHTML]=" event.fields.longDescription | mdToHtml"></p>
+        
+        @if (event.fields.image) {
+        <img [src]="'https:'+event.fields.image.fields.file.url" [alt]="event.fields.image.fields.title || event.fields.title" class="event-image" loading="lazy">
+        }
+
         @if(event.fields.url) {
         <!-- <a class="event-link" [href]="event.fields.url" target="_blank" rel="noopener noreferrer">More Info →</a> -->
         }
@@ -158,7 +166,11 @@
       </div>
       <div class="event-info">
         <h3>{{ event.fields.title }}</h3>
-        <p class="event-location">{{ event.fields.location }}</p>
+        <p class="event-location">{{ event.fields.location || event.fields.venue }}</p>
+        
+        @if (event.fields.image) {
+        <img [src]="'https:'+event.fields.image.fields.file.url" [alt]="event.fields.image.fields.title || event.fields.title" class="event-image" loading="lazy">
+        }
       </div>
     </div>
     }
@@ -193,7 +205,8 @@
   @if (club.fields.clubPhotos && club.fields.clubPhotos.length > 0) {
   <h1 class="gallery-title">Gallery</h1>
   <div class="gallery-container">
-    @for(galleryImage of sortedClubPhotos(); track galleryImage.sys.id) {
+    @for(galleryImage of sortedClubPhotos(); track galleryImage.sys.id; let i = $index) {
+    @if (i < 6 || showAllGallery()) {
     <!-- Added click handler and keyboard accessibility -->
     <div class="gallery-item" (click)="openLightbox(galleryImage)" (keydown.enter)="openLightbox(galleryImage)"
       tabindex="0" role="button" aria-label="View larger image">
@@ -205,7 +218,16 @@
       }
     </div>
     }
+    }
   </div>
+
+  @if (sortedClubPhotos().length > 6) {
+  <div style="text-align: center; margin-top: 2.5rem;">
+    <button class="toggle-events-button" style="display: inline-block; margin: 0;" (click)="toggleShowAllGallery()">
+      {{ showAllGallery() ? 'Show Less' : 'Show All Photos (' + sortedClubPhotos().length + ')' }}
+    </button>
+  </div>
+  }
   }
 
   <!-- LIGHTBOX MODAL -->

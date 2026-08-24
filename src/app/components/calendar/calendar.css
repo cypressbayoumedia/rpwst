@@ -5,35 +5,51 @@
   
   /* --- Calendar Preview Card Styles --- */
   .calendar-preview-container {
-    max-width: 500px;
-    margin: 2rem auto;
+    width: 100%;
+    background: linear-gradient(145deg, #ffffff, #fcfcfc);
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    padding: 1.5rem;
     text-align: center;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .calendar-preview-container:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 40px rgba(213, 0, 0, 0.08);
   }
   
   .calendar-preview-container h2 {
-    font-size: 2.5rem;
-    font-weight: 700;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #0d1e61;
     margin-bottom: 1.5rem;
   }
   
   .calendar-image-wrapper {
     position: relative;
-    border-radius: 12px;
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
   }
   
   .calendar-image-wrapper:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    transform: scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
   }
   
   .calendar-image-wrapper img {
     display: block;
     width: 100%;
     height: auto;
+    object-fit: cover;
   }
   
   /* Overlay that appears on hover */

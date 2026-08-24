@@ -60,12 +60,26 @@ export class ClubDetails {
   slug = input.required<string>();
   showPastEvents = signal(false);
   showAllNewsletters = signal(false);
+  showAllGallery = signal(false);
+
   clubResource = resource({
     // `params` defines the reactive dependencies for the loader.
     params: () => ({ slug: this.slug() }),
     // `loader` is the async function that fetches the data.
-    loader: ({ params }): Promise<Entry<any> | undefined> => {
-      return this.contentfulService.get_club(params.slug);
+    loader: async ({ params }): Promise<Entry<any> | undefined> => {
+      const club = await this.contentfulService.get_club(params.slug);
+      
+      if (club && club.sys?.id) {
+        // Fetch events that reference this club
+        const linkedEvents = await this.contentfulService.get_events({ 'fields.clubEvent.sys.id': club.sys.id });
+        
+        // Merge them into club.fields.events
+        if (linkedEvents && linkedEvents.length > 0) {
+          club.fields.events = [...(club.fields.events || []), ...linkedEvents];
+        }
+      }
+      
+      return club;
     }
   });
 
@@ -85,6 +99,16 @@ export class ClubDetails {
     return events
       .filter((event: any) => new Date(event.fields.dateTime) < now)
       .sort((a: any, b: any) => new Date(b.fields.dateTime).getTime() - new Date(a.fields.dateTime).getTime());
+  });
+
+  // Computed signal to sort newsletters by upload date (newest first)
+  sortedNewsletters = computed(() => {
+    const newsletters = this.clubResource.value()?.fields.newsletter || [];
+    return [...newsletters].sort((a: any, b: any) => {
+      const dateA = a.sys?.createdAt || 0;
+      const dateB = b.sys?.createdAt || 0;
+      return new Date(dateB).getTime() - new Date(dateA).getTime();
+    });
   });
 
   // Computed signal to sort gallery photos by upload date (newest first)
@@ -107,6 +131,10 @@ export class ClubDetails {
 
   toggleShowAllNewsletters(): void {
     this.showAllNewsletters.update(value => !value);
+  }
+
+  toggleShowAllGallery(): void {
+    this.showAllGallery.update(value => !value);
   }
 
   // Lightbox Modal signals and methods
